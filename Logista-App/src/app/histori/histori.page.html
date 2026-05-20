@@ -1,0 +1,210 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>
+
+      History
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content color="light">
+
+  <!-- SEARCH -->
+
+  <div class="search-container">
+
+    <ion-searchbar
+      placeholder="Cari barang..."
+      (ionInput)="searchHistory($event)">
+    </ion-searchbar>
+
+  </div>
+
+  <!-- FILTER -->
+
+  <ion-segment
+    value="all"
+    (ionChange)="filterHistory($event)">
+
+    <ion-segment-button value="all">
+      <ion-label>Semua</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="barang_masuk">
+      <ion-label>Masuk</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="barang_keluar">
+      <ion-label>Keluar</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="mutasi">
+      <ion-label>Mutasi</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="barang_ditolak">
+
+  <ion-label>Ditolak</ion-label>
+
+</ion-segment-button>
+
+  </ion-segment>
+
+  <!-- HISTORY CARD -->
+
+  <ion-card
+    *ngFor="let item of filteredHistory"
+    class="history-card">
+
+    <ion-card-content>
+
+      <div class="top-section">
+
+        <div class="left">
+
+          <ion-icon
+            [name]="getIcon(item.jenis)"
+            class="history-icon">
+          </ion-icon>
+
+        </div>
+
+        <div class="middle">
+
+          <h2>
+            {{ item.nama_barang }}
+          </h2>
+
+          <p>
+            {{ item.kode_barang }}
+          </p>
+
+        </div>
+
+        <div class="right">
+
+          <ion-badge
+            [color]="getBadgeColor(item.jenis)">
+
+            {{ item.jenis }}
+
+          </ion-badge>
+
+        </div>
+
+      </div>
+
+      <!-- DETAIL -->
+
+<div class="detail-section">
+
+  <!-- QTY -->
+
+  <div class="detail-item">
+
+    <span class="label">
+      Qty
+    </span>
+
+    <span class="value">
+      {{ item.jumlah }}
+    </span>
+
+  </div>
+
+  <!-- DETAIL STOK -->
+
+  <div class="detail-stock">
+
+    <!-- TOTAL -->
+
+    <div class="stock-row">
+
+      <span class="label">
+        Total
+      </span>
+
+      <span class="value">
+
+        {{ item.total_stok_sebelum }}
+        →
+        {{ item.total_stok_sesudah }}
+
+      </span>
+
+    </div>
+
+    <!-- GUDANG -->
+
+    <div class="stock-row">
+
+      <span class="label">
+        Gudang
+      </span>
+
+      <span class="value">
+
+        {{ item.stok_gudang_sebelum }}
+        →
+        {{ item.stok_gudang_sesudah }}
+
+      </span>
+
+    </div>
+
+    <!-- RAK -->
+
+    <div class="stock-row">
+
+      <span class="label">
+        Rak
+      </span>
+
+      <span class="value">
+
+        {{ item.stok_rak_sebelum }}
+        →
+        {{ item.stok_rak_sesudah }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+      <!-- NOTE -->
+
+      <div class="note-section">
+
+        {{ item.keterangan }}
+
+      </div>
+
+      <!-- DATE -->
+
+      <div class="date-section">
+
+        {{ item.created_at | date:'dd MMMM yyyy HH:mm' }}
+
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

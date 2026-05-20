@@ -1,0 +1,194 @@
+ion-content {
+
+  --background:
+    linear-gradient(
+      180deg,
+      #0f172a 0%,
+      #111827 100%
+    );
+
+}
+
+.welcome-container {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 30px;
+
+  text-align: center;
+
+}
+
+.logo {
+
+  width: 120px;
+
+  margin-bottom: 25px;
+
+  animation:
+    float 3s ease-in-out infinite;
+
+}
+
+h1 {
+
+  color: white;
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+  margin-bottom: 15px;
+
+}
+
+.desc {
+
+  color: #cbd5e1;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  margin-bottom: 30px;
+
+}
+
+.feature-box {
+
+  width: 100%;
+
+  background: rgba(255,255,255,0.08);
+
+  border-radius: 20px;
+
+  padding: 20px;
+
+  margin-bottom: 30px;
+
+  backdrop-filter: blur(10px);
+
+}
+
+.feature-item {
+
+  color: white;
+
+  text-align: left;
+
+  padding: 10px 0;
+
+  font-size: 15px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+
+}
+
+.feature-item:last-child {
+
+  border-bottom: none;
+
+}
+
+.agree-box {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 30px;
+
+  color: white;
+
+  font-size: 14px;
+
+}
+
+.start-btn {
+
+  width: 100%;
+
+  height: 55px;
+
+  --border-radius: 18px;
+
+  --background: #2BB1BB;
+
+  font-weight: 700;
+
+  font-size: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(43,177,187,0.4);
+
+}
+
+@keyframes float {
+
+  0% {
+
+    transform:
+      translateY(0px);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-10px);
+
+  }
+
+  100% {
+
+    transform:
+      translateY(0px);
+
+  }
+
+}
+.welcome-container{
+    animation:
+  fadeIn 1s ease;
+}
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+.version {
+
+  color: #64748b;
+
+  margin-top: 15px;
+
+  font-size: 12px;
+
+}

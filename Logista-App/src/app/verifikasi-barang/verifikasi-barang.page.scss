@@ -1,0 +1,51 @@
+.form-card {
+  border-radius: 16px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.status-wrapper {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.status-card {
+  flex: 1;
+  padding: 16px;
+  text-align: center;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+}
+
+.status-card.active {
+  background: #eef4ff;
+  border-color: var(--ion-color-primary);
+  font-weight: bold;
+}
+
+.footer-btn {
+  margin-top: 20px;
+}
+
+.footer-btn ion-button {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}

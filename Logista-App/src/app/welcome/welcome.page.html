@@ -1,0 +1,95 @@
+<ion-content fullscreen>
+
+  <div class="welcome-container">
+
+    <!-- LOGO -->
+    <img
+      src="assets/logista.jpeg"
+      class="logo"
+    />
+
+    <!-- TITLE -->
+    <h1>
+      Welcome to Logista
+    </h1>
+
+    <!-- DESC -->
+    <p class="desc">
+
+      Manage warehouse stock,
+      goods movement,
+      and inventory monitoring
+      more efficiently.
+
+    </p>
+
+    <!-- FEATURES -->
+    <div class="feature-box">
+
+      <div class="feature-item">
+
+        ✅ Real-time Inventory
+
+      </div>
+
+      <div class="feature-item">
+
+        ✅ Stock Monitoring
+
+      </div>
+
+      <div class="feature-item">
+
+        ✅ Goods In & Out
+
+      </div>
+
+      <div class="feature-item">
+
+        ✅ Smart Notifications
+
+      </div>
+
+    </div>
+
+    <!-- AGREEMENT -->
+    <div class="agree-box">
+
+      <ion-checkbox
+        [(ngModel)]="isAgree"
+      >
+      </ion-checkbox>
+
+      <span>
+
+        I agree to the
+        Terms & Privacy Policy
+
+      </span>
+
+    </div>
+
+    <!-- BUTTON -->
+    <ion-button
+
+      expand="block"
+
+      class="start-btn"
+
+      (click)="startApp()"
+
+    >
+
+      Get Started
+
+    </ion-button>
+
+  </div>
+
+  <p class="version">
+
+  Logista v1.0
+
+</p>
+
+</ion-content>

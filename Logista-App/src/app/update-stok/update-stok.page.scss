@@ -1,0 +1,218 @@
+.clock-card {
+
+  background:
+    linear-gradient(
+      135deg,
+      #2196F3,
+      #1565C0
+    );
+
+  color: white;
+
+  border-radius: 20px;
+
+  padding: 10px;
+
+  margin-bottom: 20px;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.15);
+
+  text-align: center;
+
+  h2 {
+
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+
+  }
+
+  p {
+
+    margin-top: 10px;
+    opacity: 0.9;
+
+  }
+
+}
+ion-content {
+
+  --background: #f5f7fb;
+
+}
+
+.header-box {
+
+  margin-bottom: 20px;
+
+  h1 {
+
+    font-size: 26px;
+    font-weight: bold;
+    color: #111;
+
+  }
+
+  p {
+
+    color: #666;
+    margin-top: 5px;
+
+  }
+
+}
+
+.dashboard-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+
+}
+
+.dashboard-card {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 20px;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.06);
+
+  text-align: center;
+
+  transition: 0.2s;
+
+  ion-icon {
+
+    font-size: 34px;
+    margin-bottom: 10px;
+
+  }
+
+  h2 {
+
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+
+  }
+
+  p {
+
+    margin-top: 8px;
+    color: #666;
+
+  }
+
+}
+
+/* COLORS */
+
+.blue {
+
+  border-left: 6px solid #2196F3;
+
+  ion-icon {
+    color: #2196F3;
+  }
+
+}
+
+.green {
+
+  border-left: 6px solid #4CAF50;
+
+  ion-icon {
+    color: #4CAF50;
+  }
+
+}
+
+.red {
+
+  border-left: 6px solid #F44336;
+
+  ion-icon {
+    color: #F44336;
+  }
+
+}
+
+.orange {
+
+  border-left: 6px solid #FF9800;
+
+  ion-icon {
+    color: #FF9800;
+  }
+
+}
+
+.purple {
+
+  border-left: 6px solid #9C27B0;
+
+  ion-icon {
+    color: #9C27B0;
+  }
+
+}
+
+.dark {
+
+  border-left: 6px solid #37474F;
+
+  ion-icon {
+    color: #37474F;
+  }
+
+}
+.chart-card {
+
+  margin-top: 25px;
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.06);
+
+  h2 {
+
+    margin-bottom: 20px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+  }
+
+  canvas {
+
+    max-height: 250px !important;
+
+  }
+
+}
+.filter-box {
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  ion-item {
+
+    border-radius: 14px;
+    margin-bottom: 10px;
+
+  }
+
+}

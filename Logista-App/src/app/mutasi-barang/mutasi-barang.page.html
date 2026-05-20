@@ -1,0 +1,176 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>
+
+      Mutasi Barang
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <!-- PILIH BARANG -->
+
+      <ion-item>
+
+        <ion-label>
+
+          Pilih Barang
+
+        </ion-label>
+
+        <ion-select
+          [(ngModel)]="selectedBarang">
+
+          <ion-select-option
+
+            *ngFor="
+              let item of barangList
+            "
+
+            [value]="item">
+
+            {{ item.nama_barang }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </ion-item>
+
+      <!-- INFO STOK -->
+
+<div
+  *ngIf="selectedBarang"
+  class="stok-info">
+
+  <p>
+
+    Stok Gudang :
+    <strong>
+      {{ selectedBarang.stok_gudang }}
+    </strong>
+
+  </p>
+
+  <p>
+
+    Stok Rak :
+    <strong>
+      {{ selectedBarang.stok_rak || 0 }}
+    </strong>
+
+  </p>
+
+</div>
+
+      <!-- QTY -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Qty Mutasi
+
+        </ion-label>
+
+        <ion-input
+
+          type="number"
+
+          [(ngModel)]="qtyMutasi">
+
+        </ion-input>
+
+      </ion-item>
+
+      <!-- LOKASI ASAL -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Lokasi Asal
+
+        </ion-label>
+
+        <ion-input
+          [(ngModel)]="lokasiAsal">
+        </ion-input>
+
+      </ion-item>
+
+      <!-- LOKASI TUJUAN -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Lokasi Tujuan
+
+        </ion-label>
+
+        <ion-input
+          [(ngModel)]="lokasiTujuan">
+        </ion-input>
+
+      </ion-item>
+
+      <!-- CATATAN -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Catatan
+
+        </ion-label>
+
+        <ion-textarea
+
+          rows="4"
+
+          [(ngModel)]="catatan">
+
+        </ion-textarea>
+
+      </ion-item>
+
+      <!-- BUTTON -->
+
+      <ion-button
+
+        expand="block"
+
+        color="warning"
+
+        class="ion-margin-top"
+
+        (click)="submitMutasi()">
+
+        SIMPAN MUTASI
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

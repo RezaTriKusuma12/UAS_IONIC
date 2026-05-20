@@ -1,0 +1,120 @@
+<ion-header>
+
+  <ion-toolbar color="danger">
+
+    <ion-title>
+
+      Barang Keluar
+
+    </ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button
+        (click)="closeModal()">
+
+        <ion-icon name="close"></ion-icon>
+
+      </ion-button>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <!-- NAMA BARANG -->
+
+      <h2>
+
+        {{ barang?.nama_barang }}
+
+      </h2>
+
+      <!-- STOK -->
+
+      <p>
+
+        Stok Rak :
+        <strong>
+          {{ barang?.stok_rak }}
+        </strong>
+
+      </p>
+
+      <!-- INPUT QTY -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Qty Keluar
+
+        </ion-label>
+
+        <ion-input
+          type="number"
+          [(ngModel)]="qtyKeluar">
+        </ion-input>
+
+      </ion-item>
+
+      <!-- TUJUAN RAK -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Tujuan
+        </ion-label>
+
+        <ion-input
+          [(ngModel)]="tujuanRak">
+        </ion-input>
+
+      </ion-item>
+
+      <!-- CATATAN -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+
+          Catatan
+
+        </ion-label>
+
+        <ion-textarea
+          rows="4"
+          [(ngModel)]="catatan">
+        </ion-textarea>
+
+      </ion-item>
+
+      <!-- BUTTON -->
+
+      <ion-button
+
+        expand="block"
+
+        color="danger"
+
+        class="ion-margin-top"
+
+        (click)="submitBarangKeluar()">
+
+        KELUARKAN BARANG
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

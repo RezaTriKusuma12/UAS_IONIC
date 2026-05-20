@@ -1,0 +1,264 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>
+
+      Stock Monitoring
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+<!-- ===================================== -->
+<!-- REALTIME CLOCK -->
+<!-- ===================================== -->
+
+<div class="clock-card">
+
+  <h2>
+    {{ currentTime }}
+  </h2>
+
+  <p>
+    {{ currentDate }}
+  </p>
+
+</div>
+  <!-- ===================================== -->
+  <!-- HEADER -->
+  <!-- ===================================== -->
+
+  <div class="header-box">
+
+    <h1>Warehouse Analytics</h1>
+
+    <p>
+      Monitoring stok dan transaksi gudang
+    </p>
+
+  </div>
+
+  <!-- ===================================== -->
+  <!-- CARD ANALYTICS -->
+  <!-- ===================================== -->
+
+  <div class="dashboard-grid">
+
+    <!-- TOTAL BARANG -->
+
+    <div class="dashboard-card blue">
+
+      <ion-icon
+        name="cube-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.total_barang || 0 }}
+      </h2>
+
+      <p>Total Barang</p>
+
+    </div>
+
+    <!-- TOTAL STOK -->
+
+    <div class="dashboard-card green">
+
+      <ion-icon
+        name="layers-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.total_stok || 0 }}
+      </h2>
+
+      <p>Total Stok</p>
+
+    </div>
+
+    <!-- LOW STOCK -->
+
+    <div class="dashboard-card red">
+
+      <ion-icon
+        name="alert-circle-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.low_stock || 0 }}
+      </h2>
+
+      <p>Low Stock</p>
+
+    </div>
+
+    <!-- BARANG MASUK -->
+
+    <div class="dashboard-card orange">
+
+      <ion-icon
+        name="arrow-down-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.barang_masuk || 0 }}
+      </h2>
+
+      <p>Barang Masuk</p>
+
+    </div>
+
+    <!-- BARANG KELUAR -->
+
+    <div class="dashboard-card purple">
+
+      <ion-icon
+        name="arrow-up-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.barang_keluar || 0 }}
+      </h2>
+
+      <p>Barang Keluar</p>
+
+    </div>
+
+    <!-- MUTASI -->
+
+    <div class="dashboard-card dark">
+
+      <ion-icon
+        name="swap-horizontal-outline">
+      </ion-icon>
+
+      <h2>
+        {{ dashboard.mutasi || 0 }}
+      </h2>
+
+      <p>Mutasi</p>
+
+    </div>
+
+  </div>
+<!-- ===================================== -->
+<!-- FILTER -->
+<!-- ===================================== -->
+
+<!-- TAHUN -->
+
+<ion-item>
+
+  <ion-label>Tahun</ion-label>
+
+  <ion-select
+    [(ngModel)]="selectedTahun"
+    (ionChange)="filterChart()"
+  >
+
+    <ion-select-option value="2024">
+      2024
+    </ion-select-option>
+
+    <ion-select-option value="2025">
+      2025
+    </ion-select-option>
+
+    <ion-select-option value="2026">
+      2026
+    </ion-select-option>
+
+  </ion-select>
+
+</ion-item>
+
+<div class="filter-wrapper">
+
+  <!-- BULAN -->
+
+  <ion-item>
+
+    <ion-label>Bulan</ion-label>
+
+    <ion-select
+      [(ngModel)]="selectedBulan"
+      (ionChange)="filterChart()"
+    >
+
+      <ion-select-option value="1">Januari</ion-select-option>
+      <ion-select-option value="2">Februari</ion-select-option>
+      <ion-select-option value="3">Maret</ion-select-option>
+      <ion-select-option value="4">April</ion-select-option>
+      <ion-select-option value="5">Mei</ion-select-option>
+      <ion-select-option value="6">Juni</ion-select-option>
+      <ion-select-option value="7">Juli</ion-select-option>
+      <ion-select-option value="8">Agustus</ion-select-option>
+      <ion-select-option value="9">September</ion-select-option>
+      <ion-select-option value="10">Oktober</ion-select-option>
+      <ion-select-option value="11">November</ion-select-option>
+      <ion-select-option value="12">Desember</ion-select-option>
+
+    </ion-select>
+
+  </ion-item>
+
+  <!-- MINGGU -->
+
+  <ion-item>
+
+    <ion-label>Minggu</ion-label>
+
+    <ion-select
+      [(ngModel)]="selectedMinggu"
+      (ionChange)="filterChart()"
+    >
+
+      <ion-select-option value="1">
+        Minggu 1
+      </ion-select-option>
+
+      <ion-select-option value="2">
+        Minggu 2
+      </ion-select-option>
+
+      <ion-select-option value="3">
+        Minggu 3
+      </ion-select-option>
+
+      <ion-select-option value="4">
+        Minggu 4
+      </ion-select-option>
+
+    </ion-select>
+
+  </ion-item>
+
+</div>
+<!-- ===================================== -->
+<!-- STOCK LINE CHART -->
+<!-- ===================================== -->
+
+<div class="chart-card">
+
+  <h2>
+    📈 Perubahan Stok
+  </h2>
+
+  <canvas #lineChart></canvas>
+
+</div>
+
+
+</ion-content>

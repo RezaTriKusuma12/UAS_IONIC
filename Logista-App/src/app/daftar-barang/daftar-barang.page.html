@@ -1,0 +1,133 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <!-- BUTTON BACK -->
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <!-- TITLE -->
+
+    <ion-title>
+
+      Daftar Barang
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Search Bar -->
+  <ion-searchbar
+  placeholder="Cari barang..."
+  animated="true"
+  (ionInput)="filterBarang($event)">
+</ion-searchbar>
+
+ <!-- Card Barang -->
+<ion-card class="barang-card" *ngFor="let item of barangList">
+
+  <ion-card-content>
+
+    <!-- Header -->
+    <div class="top-section">
+
+      <div>
+        <h2>{{ item.nama_barang }}</h2>
+        <p class="kode">{{ item.kode_barang }}</p>
+      </div>
+
+      <!-- Badge Status -->
+
+<ion-badge
+  color="danger"
+  *ngIf="item.total_stok <= item.stok_minimum">
+
+  Stok Menipis
+
+</ion-badge>
+
+<ion-badge
+  color="success"
+  *ngIf="item.total_stok > item.stok_minimum">
+
+  Aman
+
+</ion-badge>
+
+    </div>
+
+    <!-- BUTTON DETAIL -->
+    <div
+      class="lihat-detail"
+      (click)="toggleDetail(item)">
+
+      {{ item.showDetail ? 'Sembunyikan Detail' : 'Lihat Detail' }}
+
+    </div>
+
+    <!-- Divider -->
+    <div
+      class="divider"
+      *ngIf="item.showDetail">
+    </div>
+
+    <!-- INFO -->
+    <div
+      class="info-grid"
+      *ngIf="item.showDetail">
+
+      <!-- TOTAL STOK -->
+      <div class="info-item">
+        <ion-icon name="cube-outline"></ion-icon>
+
+        <div>
+          <span>Total Stok</span>
+          <strong>{{ item.total_stok }} {{ item.satuan }}</strong>
+        </div>
+      </div>
+
+      <!-- STOK GUDANG -->
+<div class="info-item">
+  <ion-icon name="business-outline"></ion-icon>
+
+  <div>
+    <span>Stok Gudang</span>
+    <strong>{{ item.stok_gudang }}</strong>
+  </div>
+</div>
+
+      <!-- STOK RAK -->
+      <div class="info-item">
+        <ion-icon name="grid-outline"></ion-icon>
+
+        <div>
+          <span>Stok Rak</span>
+          <strong>{{ item.stok_rak }}</strong>
+        </div>
+      </div>
+
+      <!-- LOKASI -->
+      <div class="info-item">
+        <ion-icon name="location-outline"></ion-icon>
+
+        <div>
+          <span>Rak</span>
+          <strong>{{ item.lokasi_rak }}</strong>
+        </div>
+      </div>
+
+    </div>
+
+  </ion-card-content>
+
+</ion-card>

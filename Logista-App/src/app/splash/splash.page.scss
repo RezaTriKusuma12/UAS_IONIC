@@ -1,0 +1,100 @@
+.splash-content {
+
+  --background: #2BB1BB;
+
+}
+
+.splash-container {
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+
+  animation: fadeIn 1s ease;
+
+}
+
+.logo {
+
+  width: 140px;
+  height: 140px;
+
+  object-fit: contain;
+
+  margin-bottom: 20px;
+
+  animation:
+    floatLogo 2s ease-in-out infinite;
+
+}
+
+h1 {
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+  margin: 0;
+
+  letter-spacing: 1px;
+
+}
+
+p {
+
+  margin-top: 8px;
+
+  font-size: 14px;
+
+  opacity: 0.9;
+
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    opacity: 1;
+
+  }
+
+}
+
+@keyframes floatLogo {
+
+  0% {
+
+    transform: translateY(0);
+
+  }
+
+  50% {
+
+    transform: translateY(-10px);
+
+  }
+
+  100% {
+
+    transform: translateY(0);
+
+  }
+
+}

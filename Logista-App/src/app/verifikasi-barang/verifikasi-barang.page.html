@@ -1,0 +1,147 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-title>
+      Verifikasi Barang
+    </ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button (click)="closeModal()">
+
+        <ion-icon name="close"></ion-icon>
+
+      </ion-button>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card class="form-card">
+
+    <ion-card-content>
+
+      <div class="info-row">
+
+        <span>Nama Barang</span>
+
+        <strong>
+          {{ barang?.nama_barang }}
+        </strong>
+
+      </div>
+
+      <div class="info-row">
+
+        <span>Qty Pesanan</span>
+
+        <strong>
+          {{ barang?.jumlah_pesan }} pcs
+        </strong>
+
+      </div>
+
+      <div class="info-row">
+
+  <span>Supplier</span>
+
+  <strong>
+    {{ barang?.nama_supplier }}
+  </strong>
+
+</div>
+
+      <!-- INPUT -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+          Qty Diterima
+        </ion-label>
+
+        <ion-input
+          type="number"
+          [(ngModel)]="qtyDiterima">
+        </ion-input>
+
+      </ion-item>
+
+      <!-- STATUS -->
+
+      <div class="status-wrapper">
+
+        <div
+          class="status-card"
+          [class.active]="statusBarang == 'diterima'"
+          (click)="pilihStatus ( 'diterima')">
+
+          Sesuai
+
+        </div>
+
+        <div
+          class="status-card"
+          [class.active]="statusBarang == 'ditolak'"
+          (click)="pilihStatus ( 'ditolak')">
+
+          Tidak Sesuai
+
+        </div>
+
+      </div>
+
+      <!-- CATATAN -->
+
+      <ion-item>
+
+        <ion-label position="stacked">
+          Catatan
+        </ion-label>
+
+        <ion-textarea
+          rows="4"
+          [(ngModel)]="catatan">
+        </ion-textarea>
+
+      </ion-item>
+
+      <!-- BUTTON -->
+
+      <div class="footer-btn">
+
+  <!-- BUTTON TERIMA -->
+
+ <ion-button
+  *ngIf="statusBarang == 'diterima'"
+  color="success"
+  expand="block"
+  (click)="submitVerifikasi()">
+
+  TERIMA
+
+</ion-button>
+
+  <!-- BUTTON TOLAK -->
+
+  <ion-button
+  *ngIf="statusBarang == 'ditolak'"
+  color="danger"
+  expand="block"
+  (click)="submitVerifikasi()">
+
+  TOLAK
+
+</ion-button>
+
+</div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

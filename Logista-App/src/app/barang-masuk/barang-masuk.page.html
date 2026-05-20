@@ -1,0 +1,156 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <!-- BUTTON BACK -->
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <!-- TITLE -->
+
+    <ion-title>
+
+      Mencatat Barang Masuk
+
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-card
+    class="info-card"
+    *ngFor="let item of pemesananList">
+
+    <ion-card-content>
+
+      <div class="info-row">
+
+        <span>Nama Barang</span>
+
+        <strong>
+          {{ item.nama_barang }}
+        </strong>
+
+      </div>
+
+      <div class="info-row">
+
+        <span>Qty Pesanan</span>
+
+        <strong>
+          {{ item.jumlah_pesan }} pcs
+        </strong>
+
+      </div>
+
+      <div class="info-row">
+
+  <span>Supplier</span>
+
+  <strong>
+    {{ item.nama_supplier }}
+  </strong>
+
+</div>
+
+      <div class="info-row">
+
+        <span>Status</span>
+
+        <ion-badge
+
+  [color]="
+    item.status == 'diterima'
+      ? 'success'
+      : item.status == 'ditolak'
+      ? 'danger'
+      : 'warning'
+  ">
+
+  {{ item.status }}
+
+</ion-badge>
+
+      </div>
+
+      <div class="info-row">
+
+  <span>Waktu Pemesanan</span>
+
+  <strong>
+
+    {{ item.created_at | date:'dd MMM yyyy • HH:mm' }}
+
+  </strong>
+
+</div>
+
+      <div  class="info-row"  *ngIf="item.verified_at">
+
+  <span>Waktu Verifikasi</span>
+
+  <strong>
+
+    {{ item.verified_at | date:'dd MMM yyyy HH:mm' }}
+
+  </strong>
+
+</div>
+
+
+
+      <!-- ========================= -->
+<!-- BUTTON CEK BARANG -->
+<!-- ========================= -->
+
+<ion-button
+
+  *ngIf="item.status == 'dikirim'"
+
+  expand="block"
+
+  color="primary"
+
+  (click)="openVerifikasi(item)">
+
+  CEK BARANG
+
+</ion-button>
+
+<!-- ========================= -->
+<!-- BADGE DITERIMA -->
+<!-- ========================= -->
+
+<div
+  class="status-finish success"
+  *ngIf="item.status == 'diterima'">
+
+  Barang Sudah Diverifikasi
+
+</div>
+
+<!-- ========================= -->
+<!-- BADGE DITOLAK -->
+<!-- ========================= -->
+
+<div
+  class="status-finish danger"
+  *ngIf="item.status == 'ditolak'">
+
+  Barang Ditolak
+
+</div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

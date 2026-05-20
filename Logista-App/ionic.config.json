@@ -1,0 +1,7 @@
+{
+  "name": "Logista-App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

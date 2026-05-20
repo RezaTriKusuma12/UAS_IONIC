@@ -1,0 +1,158 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+
+      <ion-back-button
+        defaultHref="/home">
+      </ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>
+      Barang Keluar
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <!-- PILIH BARANG -->
+
+      <ion-item>
+
+        <ion-select
+
+          label="Pilih Barang"
+
+          labelPlacement="stacked"
+
+          interface="popover"
+
+          [(ngModel)]="barang_id"
+
+          (ionChange)="pilihBarang()">
+
+          <ion-select-option
+
+            *ngFor="let item of barangList"
+
+            [value]="item.id">
+
+            {{ item.nama_barang }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </ion-item>
+
+      <!-- INFO BARANG -->
+
+      <div
+        *ngIf="barangDipilih"
+        class="info-barang">
+
+        <h2>
+          {{ barangDipilih.nama_barang }}
+        </h2>
+
+        <p>
+          {{ barangDipilih.kode_barang }}
+        </p>
+
+        <p>
+
+          Stok Rak :
+
+          <strong>
+
+            {{ barangDipilih.stok_rak }}
+            {{ barangDipilih.satuan }}
+
+          </strong>
+
+        </p>
+
+      </div>
+
+      <!-- QTY -->
+
+      <ion-item>
+
+        <ion-input
+
+          type="number"
+
+          label="Qty Keluar"
+
+          labelPlacement="stacked"
+
+          [(ngModel)]="qtyKeluar">
+
+        </ion-input>
+
+      </ion-item>
+
+      <!-- TUJUAN -->
+
+      <ion-item>
+
+        <ion-input
+
+          label="Tujuan"
+
+          labelPlacement="stacked"
+
+          [(ngModel)]="tujuanRak">
+
+        </ion-input>
+
+      </ion-item>
+
+      <!-- CATATAN -->
+
+      <ion-item>
+
+        <ion-textarea
+
+          label="Catatan"
+
+          labelPlacement="stacked"
+
+          rows="4"
+
+          [(ngModel)]="catatan">
+
+        </ion-textarea>
+
+      </ion-item>
+
+      <!-- BUTTON -->
+
+      <ion-button
+
+        expand="block"
+
+        color="danger"
+
+        class="ion-margin-top"
+
+        (click)="submitBarangKeluar()">
+
+        KELUARKAN BARANG
+
+      </ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Daftar Barang</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar placeholder="Cari barang..."></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>
+        <h2>Meja Kayu Jati</h2>
+        <p>ID: BRG-001 | Kategori: Furniture</p>
+      </ion-label>
+      <ion-note slot="end" color="medium">15 Unit</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h2>Kursi Kantor</h2>
+        <p>ID: BRG-002 | Kategori: Peralatan</p>
+      </ion-label>
+      <ion-note slot="end" color="medium">42 Unit</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

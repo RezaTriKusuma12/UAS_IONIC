@@ -1,0 +1,51 @@
+<ion-content class="ion-padding">
+
+  <!-- LOGO -->
+  <div class="logo-container">
+    <img src="assets/logista.png" alt="Logo" />
+  </div>
+
+  <!-- TEXT OTP -->
+  <div class="otp-text">
+    Masukkan Kode OTP
+  </div>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-gap-2">
+
+      <ion-col size="2">
+        <ion-input #otp1 type="tel" inputmode="numeric"
+          fill="outline" maxlength="1"
+          (ionInput)="moveNext($event, 1)">
+        </ion-input>
+      </ion-col>
+
+      <ion-col size="2">
+        <ion-input #otp2 type="tel" inputmode="numeric"
+          fill="outline" maxlength="1"
+          (ionInput)="moveNext($event, 2)">
+        </ion-input>
+      </ion-col>
+
+      <ion-col size="2">
+        <ion-input #otp3 type="tel" inputmode="numeric"
+          fill="outline" maxlength="1"
+          (ionInput)="moveNext($event, 3)">
+        </ion-input>
+      </ion-col>
+
+      <ion-col size="2">
+        <ion-input #otp4 type="tel" inputmode="numeric"
+          fill="outline" maxlength="1"
+          (ionInput)="moveNext($event, 4)">
+        </ion-input>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-button expand="block" (click)="verifyOtp()">
+    VERIFIKASI
+  </ion-button>
+
+</ion-content>
