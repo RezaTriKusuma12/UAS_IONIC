@@ -1,0 +1,228 @@
+/* ===================================== */
+/* PAGE */
+/* ===================================== */
+
+ion-content{
+
+  --background:#f4f7fb;
+
+  font-family:
+    'Inter',
+    'Segoe UI',
+    sans-serif;
+}
+
+/* ===================================== */
+/* HEADER */
+/* ===================================== */
+
+ion-header{
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.05);
+}
+
+ion-toolbar{
+
+  --background:
+    linear-gradient(
+      135deg,
+      #2BB1BB,
+      #1e8e96
+    );
+
+  --color:#ffffff;
+
+  --border-color:transparent;
+
+  padding-top:
+    env(safe-area-inset-top);
+}
+
+ion-title{
+
+  font-weight:700;
+
+  font-size:20px;
+
+  color:#ffffff;
+
+  letter-spacing:0.3px;
+}
+
+ion-back-button{
+
+  --color:#ffffff;
+}
+
+/* ===================================== */
+/* CARD */
+/* ===================================== */
+
+ion-card{
+
+  margin-top:14px;
+
+  border-radius:28px;
+
+  background:#ffffff;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+
+  overflow:hidden;
+}
+
+ion-card-content{
+
+  padding:20px;
+}
+
+/* ===================================== */
+/* INPUT */
+/* ===================================== */
+
+ion-item{
+
+  --background:#f8fafc;
+
+  --border-radius:18px;
+
+  --padding-start:14px;
+
+  --inner-padding-end:14px;
+
+  margin-bottom:16px;
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius:18px;
+}
+
+ion-select,
+ion-input,
+ion-textarea{
+
+  --color:#1e293b;
+
+  font-size:15px;
+}
+
+ion-label{
+
+  color:#64748b !important;
+
+  font-weight:600;
+}
+
+/* ===================================== */
+/* INFO BARANG */
+/* ===================================== */
+
+.info-barang{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(43,177,187,0.12),
+      rgba(43,177,187,0.04)
+    );
+
+  border:
+    1px solid rgba(43,177,187,0.15);
+
+  padding:18px;
+
+  border-radius:22px;
+
+  margin-bottom:18px;
+}
+
+.info-barang h2{
+
+  font-size:20px;
+
+  font-weight:700;
+
+  color:#1e293b;
+
+  margin-bottom:6px;
+}
+
+.info-barang p{
+
+  color:#64748b;
+
+  margin-top:5px;
+
+  font-size:14px;
+
+  line-height:1.5;
+}
+
+.info-barang strong{
+
+  color:#2BB1BB;
+}
+
+/* ===================================== */
+/* BUTTON */
+/* ===================================== */
+
+ion-button{
+
+  --background:
+    linear-gradient(
+      135deg,
+      #ef4444,
+      #dc2626
+    );
+
+  --border-radius:18px;
+
+  height:54px;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  letter-spacing:0.4px;
+
+  margin-top:24px;
+
+  --box-shadow:
+    0 10px 20px rgba(239,68,68,0.25);
+}
+
+ion-button:active{
+
+  transform:scale(0.98);
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media screen and (min-width:768px){
+
+  ion-card{
+
+    max-width:550px;
+
+    margin:20px auto 0;
+  }
+}
+
+@media screen and (max-width:360px){
+
+  ion-card{
+
+    border-radius:22px;
+  }
+
+  ion-button{
+
+    height:50px;
+  }
+}

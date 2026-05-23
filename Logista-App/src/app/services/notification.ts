@@ -23,7 +23,7 @@ export class NotificationService {
 
     return this.http.get(
 
-      `${this.apiUrl}/notification-count`
+      `${this.apiUrl}/notifications-count`
 
     );
 
@@ -37,7 +37,7 @@ export class NotificationService {
 
     return this.http.get(
 
-      `${this.apiUrl}/notification`
+      `${this.apiUrl}/notifications`
 
     );
 

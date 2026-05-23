@@ -1,87 +1,278 @@
-/* ================= LOGO ================= */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-  margin-bottom: -0px; // biar lebih deket ke card (overlap dikit)
+/* ===================================== */
+/* PAGE */
+/* ===================================== */
+/* ===================================== */
+/* PAGE */
+/* ===================================== */
+
+ion-content{
+
+  --background:
+    linear-gradient(
+      180deg,
+      #2BB1BB 0%,
+      #23939c 100%
+    );
+
+  font-family:
+    'Inter',
+    'Segoe UI',
+    sans-serif;
 }
 
-.logo-container img {
-  width: 240px; // sebelumnya 540px (TERLALU BESAR)
-  height: auto;
-  z-index: 2;
- // transform: translateY(20px); // efek turun sedikit ke card
+/* ===================================== */
+/* LOGO */
+/* ===================================== */
+
+.logo-container{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  margin-top:42px;
+
+  margin-bottom:18px;
 }
 
-/* ================= CONTAINER ================= */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0;
+.logo-container img{
+
+  width:185px;
+
+  max-width:68vw;
+
+  object-fit:contain;
 }
 
-/* ================= CARD ================= */
-ion-card {
-  width: 90%;
-  max-width: 350px;
-  border-radius: 16px;
+/* ===================================== */
+/* CONTAINER */
+/* ===================================== */
 
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+.container{
 
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  display:flex;
 
-  padding-top: 1px; // biar kasih ruang untuk logo overlap
+  justify-content:center;
+
+  padding:
+    0 18px;
 }
 
-/* ================= HEADER TEXT ================= */
-ion-card-header {
-  text-align: center;
+/* ===================================== */
+/* CARD */
+/* ===================================== */
+
+ion-card{
+
+  width:100%;
+
+  max-width:420px;
+
+  margin:0;
+
+  border-radius:26px;
+
+  background:#ffffff;
+
+  border:
+    1px solid #e9eef5;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,0.06);
+
+  overflow:hidden;
 }
 
-ion-card-title {
-  font-size: 22px;
-  font-weight: bold;
+ion-card-header{
+
+  text-align:center;
+
+  padding:
+    28px 24px 10px;
 }
 
-ion-card-subtitle {
-  font-size: 14px;
-  opacity: 0.7;
+ion-card-title{
+
+  font-size:26px;
+
+  font-weight:800;
+
+  color:#0f172a;
+
+  letter-spacing:0.2px;
 }
 
-/* ================= INPUT ================= */
-ion-input {
-  margin-top: 12px;
+ion-card-subtitle{
+
+  margin-top:6px;
+
+  font-size:14px;
+
+  color:#64748b;
+
+  font-weight:500;
 }
 
-/* ================= BUTTON ================= */
-ion-button {
-  margin-top: 5px;
-  border-radius: 8px;
+ion-card-content{
+
+  padding:
+    12px 22px 24px;
 }
 
-/* ================= ACTION LINKS ================= */
-.action-links {
-  text-align: right;
-  margin-top: 10px;
+/* ===================================== */
+/* INPUT */
+/* ===================================== */
+
+ion-input{
+
+  --background:#f8fafc;
+
+  --border-radius:16px;
+
+  --padding-start:14px;
+
+  --padding-end:14px;
+
+  --highlight-color-focused:#2BB1BB;
+
+  --color:#0f172a;
+
+  margin-top:16px;
+
+  min-height:54px;
+
+  font-size:15px;
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius:16px;
+
+  transition:0.2s ease;
 }
 
-.action-links span {
-  color: #3880ff;
-  font-size: 14px;
-  cursor: pointer;
+ion-input.ion-focused{
+
+  border:
+    1px solid #2BB1BB;
+
+  box-shadow:
+    0 0 0 4px rgba(43,177,187,0.12);
 }
 
-/* ================= REGISTER ================= */
-.register {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
+/* ===================================== */
+/* BUTTON */
+/* ===================================== */
+
+ion-button{
+
+  margin-top:24px;
+
+  height:54px;
+
+  --border-radius:16px;
+
+  --background:
+    linear-gradient(
+      135deg,
+      #2BB1BB,
+      #23939c
+    );
+
+  --box-shadow:
+    0 10px 24px rgba(43,177,187,0.22);
+
+  font-size:15px;
+
+  font-weight:700;
+
+  letter-spacing:0.3px;
+
+  text-transform:none;
 }
 
-.register b {
-  color: #3880ff;
-  cursor: pointer;
-  margin-left: 5px;
+ion-button:active{
+
+  transform:scale(0.98);
+}
+
+/* ===================================== */
+/* LOGIN LINK */
+/* ===================================== */
+
+/* ===================================== */
+/* LOGIN / REGISTER LINK */
+/* ===================================== */
+
+.register{
+
+  margin-top:20px;
+
+  margin-bottom:30px;
+
+  text-align:center;
+
+  font-size:14px;
+
+  color:rgba(255,255,255,0.88);
+}
+
+.register span{
+
+  font-weight:500;
+}
+
+.register b{
+
+  color:#ffffff;
+
+  margin-left:5px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  text-decoration:underline;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media screen and (min-width:768px){
+
+  ion-card{
+
+    max-width:430px;
+  }
+}
+
+@media screen and (max-width:360px){
+
+  .logo-container{
+
+    margin-top:30px;
+  }
+
+  .logo-container img{
+
+    width:155px;
+  }
+
+  ion-card{
+
+    border-radius:22px;
+  }
+
+  ion-card-title{
+
+    font-size:23px;
+  }
+
+  ion-button{
+
+    height:50px;
+  }
 }

@@ -2157,7 +2157,7 @@ app.get('/api/stock-line-chart', (req, res) => {
 // GET NOTIFICATIONS
 // =====================================
 
-app.get('/api/notification', (req, res) => {
+app.get('/api/notifications', (req, res) => {
 
   const sql = `
 
@@ -2200,7 +2200,7 @@ app.get('/api/notification', (req, res) => {
 // NOTIFICATION COUNT
 // =====================================
 
-app.get('/api/notification-count', (req, res) => {
+app.get('/api/notifications-count', (req, res) => {
 
   const sql = `
 

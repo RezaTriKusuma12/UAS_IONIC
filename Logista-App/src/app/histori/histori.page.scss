@@ -1,167 +1,416 @@
-.toolbar-custom {
+/* ===================================== */
+/* GLOBAL */
+/* ===================================== */
 
-  --background: #2BB1BB;
-  --color: white;
-
+*{
+  box-sizing:border-box;
 }
 
-.search-container {
+ion-content{
 
-  padding: 10px;
+  --background:#f4f7fb;
 
+  overflow-x:hidden;
 }
 
-ion-searchbar {
+.history-content{
 
-  --border-radius: 15px;
-
+  --padding-bottom:30px;
 }
 
-ion-segment {
+/* ===================================== */
+/* TOOLBAR */
+/* ===================================== */
 
-  margin: 10px;
+.modern-toolbar{
 
-}
+  --background:
+    linear-gradient(
+      135deg,
+      #2BB1BB,
+      #1e8e96
+    );
 
-.history-card {
+  --color:white;
 
-  margin: 14px;
-  border-radius: 18px;
+  padding-top:
+    env(safe-area-inset-top);
 
   box-shadow:
-    0 4px 12px rgba(0,0,0,0.08);
-
+    0 4px 18px rgba(43,177,187,0.25);
 }
 
-.top-section {
+ion-title{
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-weight:700;
 
+  letter-spacing:0.4px;
 }
 
-.left {
-
-  margin-right: 14px;
-
+ion-back-button{
+  --color:white;
 }
 
-.history-icon {
+/* ===================================== */
+/* CONTENT */
+/* ===================================== */
 
-  font-size: 34px;
-  color: #2BB1BB;
+.content-wrapper{
 
+  padding:
+    16px
+    16px
+    30px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:16px;
 }
 
-.middle {
+/* ===================================== */
+/* SEARCH */
+/* ===================================== */
 
-  flex: 1;
-
+.search-container{
+  margin-bottom:4px;
 }
 
-.middle h2 {
+.modern-search{
 
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  padding:0;
 
+  --background:white;
+
+  --border-radius:20px;
+
+  --box-shadow:
+    0 6px 18px rgba(0,0,0,0.05);
+
+  --placeholder-color:#94a3b8;
+
+  --color:#1e293b;
 }
 
-.middle p {
+/* ===================================== */
+/* SEGMENT */
+/* ===================================== */
 
-  margin-top: 4px;
-  color: gray;
-  font-size: 13px;
+.modern-segment{
 
+  background:white;
+
+  border-radius:18px;
+
+  padding:6px;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.05);
 }
 
-.detail-section {
+ion-segment-button{
 
-  display: flex;
-  justify-content: space-between;
+  --border-radius:14px;
 
-  margin-top: 18px;
+  min-height:42px;
 
+  font-size:13px;
+
+  font-weight:600;
+
+  text-transform:none;
 }
 
-.detail-item {
+/* ===================================== */
+/* CARD */
+/* ===================================== */
 
-  display: flex;
-  flex-direction: column;
+.history-card{
 
+  margin:0;
+
+  border-radius:28px;
+
+  background:white;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.06);
+
+  border:
+    1px solid rgba(255,255,255,0.7);
+
+  overflow:hidden;
 }
 
-.label {
-
-  font-size: 12px;
-  color: gray;
-
+ion-card-content{
+  padding:20px;
 }
 
-.value {
+/* ===================================== */
+/* TOP */
+/* ===================================== */
 
-  font-size: 16px;
-  font-weight: bold;
+.top-section{
 
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
 }
 
-.note-section {
-
-  margin-top: 16px;
-  padding: 12px;
-
-  background: #f5f5f5;
-
-  border-radius: 12px;
-
-  font-size: 14px;
-
+.left{
+  flex-shrink:0;
 }
 
-.date-section {
+.icon-wrapper{
 
-  margin-top: 14px;
+  width:54px;
+  height:54px;
 
-  font-size: 12px;
-  color: gray;
+  border-radius:18px;
 
-  text-align: right;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(43,177,187,0.12),
+      rgba(43,177,187,0.04)
+    );
 
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
 }
 
-.chart-card {
+.history-icon{
 
-  margin: 14px;
-  border-radius: 18px;
+  font-size:26px;
 
+  color:#2BB1BB;
 }
 
-.detail-stock {
+.middle{
 
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex:1;
 
+  min-width:0;
 }
 
-.stock-row {
+.middle h2{
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin:0;
 
+  font-size:17px;
+
+  font-weight:700;
+
+  color:#1e293b;
+
+  line-height:1.4;
 }
 
-.stock-row .label {
+.middle p{
 
-  font-size: 13px;
-  color: #666;
+  margin-top:5px;
 
+  color:#64748b;
+
+  font-size:13px;
 }
 
-.stock-row .value {
+/* ===================================== */
+/* BADGE */
+/* ===================================== */
 
-  font-weight: 600;
+.modern-badge{
 
+  padding:
+    8px
+    12px;
+
+  border-radius:12px;
+
+  font-size:11px;
+
+  font-weight:700;
+
+  text-transform:capitalize;
+}
+
+/* ===================================== */
+/* DETAIL */
+/* ===================================== */
+
+.detail-container{
+
+  margin-top:18px;
+
+  display:grid;
+
+  grid-template-columns:
+    90px 1fr;
+
+  gap:14px;
+}
+
+/* ===================================== */
+/* QTY */
+/* ===================================== */
+
+.qty-box{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(43,177,187,0.08),
+      rgba(43,177,187,0.03)
+    );
+
+  border-radius:18px;
+
+  padding:14px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+}
+
+.qty-value{
+
+  margin-top:6px;
+
+  font-size:24px;
+
+  font-weight:700;
+
+  color:#1e293b;
+}
+
+/* ===================================== */
+/* STOCK */
+/* ===================================== */
+
+.detail-stock{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(43,177,187,0.08),
+      rgba(43,177,187,0.03)
+    );
+
+  border-radius:18px;
+
+  padding:14px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+}
+
+.stock-row{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:10px;
+}
+
+.label{
+
+  font-size:12px;
+
+  color:#64748b;
+}
+
+.value{
+
+  font-size:14px;
+
+  font-weight:700;
+
+  color:#1e293b;
+
+  text-align:right;
+}
+
+/* ===================================== */
+/* NOTE */
+/* ===================================== */
+
+.note-section{
+
+  margin-top:18px;
+
+  padding:14px;
+
+  background:#f8fafc;
+
+  border-radius:16px;
+
+  font-size:14px;
+
+  color:#475569;
+
+  line-height:1.6;
+}
+
+/* ===================================== */
+/* DATE */
+/* ===================================== */
+
+.date-section{
+
+  margin-top:14px;
+
+  text-align:right;
+
+  font-size:12px;
+
+  color:#94a3b8;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media screen and (min-width:768px){
+
+  .content-wrapper{
+
+    max-width:700px;
+
+    margin:auto;
+  }
+}
+
+@media screen and (max-width:420px){
+
+  .detail-container{
+
+    grid-template-columns:1fr;
+  }
+
+  .qty-box{
+
+    flex-direction:row;
+
+    justify-content:space-between;
+  }
+
+  .qty-value{
+    margin-top:0;
+  }
 }

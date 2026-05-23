@@ -1,218 +1,402 @@
-.clock-card {
+/* ===================================== */
+/* PAGE */
+/* ===================================== */
+
+ion-content{
+
+  --background:#f4f7fb;
+
+  font-family:
+    'Inter',
+    'Segoe UI',
+    sans-serif;
+}
+
+/* ===================================== */
+/* HEADER */
+/* ===================================== */
+
+ion-header{
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.05);
+}
+
+ion-toolbar{
+
+  --background:
+    linear-gradient(
+      135deg,
+      #2BB1BB,
+      #1e8e96
+    );
+
+  --color:#ffffff;
+
+  --border-color:transparent;
+
+  padding-top:
+    env(safe-area-inset-top);
+}
+
+ion-title{
+
+  font-weight:700;
+
+  font-size:20px;
+
+  color:#0f172a;
+
+  letter-spacing:0.3px;
+}
+
+ion-back-button{
+
+  --color:#f1f5f5;
+}
+
+/* ===================================== */
+/* CLOCK CARD */
+/* ===================================== */
+
+.clock-card{
 
   background:
     linear-gradient(
       135deg,
-      #2196F3,
-      #1565C0
+      #2BB1BB,
+      #1e8e96
     );
 
-  color: white;
+  color:white;
 
-  border-radius: 20px;
+  border-radius:24px;
 
-  padding: 10px;
+  padding:22px 20px;
 
-  margin-bottom: 20px;
+  margin-bottom:22px;
+
+  text-align:center;
 
   box-shadow:
-    0 6px 20px rgba(0,0,0,0.15);
-
-  text-align: center;
-
-  h2 {
-
-    font-size: 25px;
-    font-weight: bold;
-    margin: 0;
-
-  }
-
-  p {
-
-    margin-top: 10px;
-    opacity: 0.9;
-
-  }
-
-}
-ion-content {
-
-  --background: #f5f7fb;
-
+    0 10px 24px rgba(43,177,187,0.22);
 }
 
-.header-box {
+.clock-card h2{
 
-  margin-bottom: 20px;
+  font-size:30px;
 
-  h1 {
+  font-weight:800;
 
-    font-size: 26px;
-    font-weight: bold;
-    color: #111;
+  margin:0;
 
-  }
-
-  p {
-
-    color: #666;
-    margin-top: 5px;
-
-  }
-
+  letter-spacing:1px;
 }
 
-.dashboard-grid {
+.clock-card p{
 
-  display: grid;
+  margin-top:8px;
+
+  font-size:14px;
+
+  opacity:0.92;
+}
+
+/* ===================================== */
+/* HEADER BOX */
+/* ===================================== */
+
+.header-box{
+
+  margin-bottom:22px;
+}
+
+.header-box h1{
+
+  font-size:28px;
+
+  font-weight:800;
+
+  color:#0f172a;
+
+  margin:0;
+}
+
+.header-box p{
+
+  margin-top:8px;
+
+  color:#64748b;
+
+  font-size:14px;
+
+  line-height:1.5;
+}
+
+/* ===================================== */
+/* DASHBOARD GRID */
+/* ===================================== */
+
+.dashboard-grid{
+
+  display:grid;
 
   grid-template-columns:
-    repeat(2, 1fr);
+    repeat(2,1fr);
 
-  gap: 15px;
-
+  gap:16px;
 }
 
-.dashboard-card {
+/* ===================================== */
+/* DASHBOARD CARD */
+/* ===================================== */
 
-  background: white;
+.dashboard-card{
 
-  border-radius: 18px;
+  background:white;
 
-  padding: 20px;
+  border-radius:24px;
+
+  padding:20px 16px;
+
+  text-align:center;
 
   box-shadow:
-    0 4px 15px rgba(0,0,0,0.06);
+    0 10px 24px rgba(15,23,42,0.06);
 
-  text-align: center;
-
-  transition: 0.2s;
-
-  ion-icon {
-
-    font-size: 34px;
-    margin-bottom: 10px;
-
-  }
-
-  h2 {
-
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-
-  }
-
-  p {
-
-    margin-top: 8px;
-    color: #666;
-
-  }
-
+  transition:0.2s ease;
 }
 
-/* COLORS */
+.dashboard-card:active{
 
-.blue {
-
-  border-left: 6px solid #2196F3;
-
-  ion-icon {
-    color: #2196F3;
-  }
-
+  transform:scale(0.97);
 }
 
-.green {
+.dashboard-card ion-icon{
 
-  border-left: 6px solid #4CAF50;
+  font-size:34px;
 
-  ion-icon {
-    color: #4CAF50;
-  }
-
+  margin-bottom:12px;
 }
 
-.red {
+.dashboard-card h2{
 
-  border-left: 6px solid #F44336;
+  margin:0;
 
-  ion-icon {
-    color: #F44336;
-  }
+  font-size:28px;
 
+  font-weight:800;
+
+  color:#0f172a;
 }
 
-.orange {
+.dashboard-card p{
 
-  border-left: 6px solid #FF9800;
+  margin-top:8px;
 
-  ion-icon {
-    color: #FF9800;
-  }
+  font-size:14px;
 
+  font-weight:500;
+
+  color:#64748b;
 }
 
-.purple {
+/* ===================================== */
+/* CARD COLORS */
+/* ===================================== */
 
-  border-left: 6px solid #9C27B0;
+.blue{
 
-  ion-icon {
-    color: #9C27B0;
-  }
-
+  border-top:
+    5px solid #2196F3;
 }
 
-.dark {
+.blue ion-icon{
 
-  border-left: 6px solid #37474F;
-
-  ion-icon {
-    color: #37474F;
-  }
-
+  color:#2196F3;
 }
-.chart-card {
 
-  margin-top: 25px;
+.green{
 
-  background: white;
+  border-top:
+    5px solid #22c55e;
+}
 
-  padding: 20px;
+.green ion-icon{
 
-  border-radius: 20px;
+  color:#22c55e;
+}
+
+.red{
+
+  border-top:
+    5px solid #ef4444;
+}
+
+.red ion-icon{
+
+  color:#ef4444;
+}
+
+.orange{
+
+  border-top:
+    5px solid #f59e0b;
+}
+
+.orange ion-icon{
+
+  color:#f59e0b;
+}
+
+.purple{
+
+  border-top:
+    5px solid #a855f7;
+}
+
+.purple ion-icon{
+
+  color:#a855f7;
+}
+
+.dark{
+
+  border-top:
+    5px solid #334155;
+}
+
+.dark ion-icon{
+
+  color:#334155;
+}
+
+/* ===================================== */
+/* FILTER */
+/* ===================================== */
+
+.filter-wrapper{
+
+  margin-top:24px;
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:14px;
+}
+
+ion-item{
+
+  --background:#ffffff;
+
+  --border-radius:18px;
+
+  --padding-start:14px;
+
+  --inner-padding-end:14px;
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius:18px;
+
+  margin-top:16px;
 
   box-shadow:
-    0 4px 15px rgba(0,0,0,0.06);
-
-  h2 {
-
-    margin-bottom: 20px;
-
-    font-size: 20px;
-    font-weight: bold;
-
-  }
-
-  canvas {
-
-    max-height: 250px !important;
-
-  }
-
+    0 4px 12px rgba(0,0,0,0.03);
 }
-.filter-box {
 
-  margin-top: 20px;
-  margin-bottom: 20px;
+ion-label{
 
-  ion-item {
+  color:#64748b !important;
 
-    border-radius: 14px;
-    margin-bottom: 10px;
+  font-weight:600;
+}
 
+ion-select{
+
+  --color:#0f172a;
+
+  font-size:15px;
+}
+
+/* ===================================== */
+/* CHART CARD */
+/* ===================================== */
+
+.chart-card{
+
+  margin-top:28px;
+
+  background:white;
+
+  border-radius:26px;
+
+  padding:22px 18px;
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,0.06);
+}
+
+.chart-card h2{
+
+  margin-bottom:20px;
+
+  font-size:20px;
+
+  font-weight:800;
+
+  color:#0f172a;
+}
+
+.chart-card canvas{
+
+  max-height:260px !important;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media screen and (min-width:768px){
+
+  .dashboard-grid{
+
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
+  .chart-card{
+
+    max-width:700px;
+
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+@media screen and (max-width:360px){
+
+  .dashboard-card{
+
+    padding:16px 12px;
+  }
+
+  .dashboard-card h2{
+
+    font-size:24px;
+  }
+
+  .clock-card h2{
+
+    font-size:25px;
+  }
+
+  .filter-wrapper{
+
+    grid-template-columns:
+      1fr;
+  }
 }

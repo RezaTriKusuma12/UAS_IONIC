@@ -1,87 +1,276 @@
-/* ================= LOGO ================= */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-  margin-bottom: -0px; // biar lebih deket ke card (overlap dikit)
+/* ===================================== */
+/* BACKGROUND */
+/* ===================================== */
+
+ion-content{
+
+  --background:
+    linear-gradient(
+      180deg,
+      #2BB1BB 0%,
+      #1e8e96 100%
+    );
+
+  font-family:
+    'Inter',
+    'Segoe UI',
+    sans-serif;
 }
 
-.logo-container img {
-  width: 240px; // sebelumnya 540px (TERLALU BESAR)
-  height: auto;
-  z-index: 2;
- // transform: translateY(20px); // efek turun sedikit ke card
+/* ===================================== */
+/* LOGO */
+/* ===================================== */
+
+.logo-container{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  padding-top:
+    calc(env(safe-area-inset-top) + 35px);
+
+  margin-bottom:24px;
 }
 
-/* ================= CONTAINER ================= */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0;
+.logo-container img{
+
+  width:180px;
+
+  max-width:70vw;
+
+  height:auto;
+
+  object-fit:contain;
+
+  border-radius:24px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.18);
 }
 
-/* ================= CARD ================= */
-ion-card {
-  width: 90%;
-  max-width: 350px;
-  border-radius: 16px;
+/* ===================================== */
+/* CONTAINER */
+/* ===================================== */
 
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+.container{
 
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  display:flex;
 
-  padding-top: 1px; // biar kasih ruang untuk logo overlap
+  justify-content:center;
+
+  align-items:center;
+
+  padding:
+    0 18px;
 }
 
-/* ================= HEADER TEXT ================= */
-ion-card-header {
-  text-align: center;
+/* ===================================== */
+/* CARD */
+/* ===================================== */
+
+ion-card{
+
+  width:100%;
+
+  max-width:420px;
+
+  margin:0;
+
+  border-radius:30px;
+
+  background:
+    rgba(255,255,255,0.97);
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.18);
+
+  padding:
+    10px 8px 14px;
+
+  overflow:hidden;
 }
 
-ion-card-title {
-  font-size: 22px;
-  font-weight: bold;
+/* ===================================== */
+/* HEADER */
+/* ===================================== */
+
+ion-card-header{
+
+  text-align:center;
+
+  padding-top:10px;
 }
 
-ion-card-subtitle {
-  font-size: 14px;
-  opacity: 0.7;
+ion-card-title{
+
+  font-size:28px;
+
+  font-weight:700;
+
+  color:#0f172a;
+
+  letter-spacing:0.3px;
 }
 
-/* ================= INPUT ================= */
-ion-input {
-  margin-top: 12px;
+ion-card-subtitle{
+
+  margin-top:8px;
+
+  font-size:14px;
+
+  color:#64748b;
+
+  line-height:1.5;
 }
 
-/* ================= BUTTON ================= */
-ion-button {
-  margin-top: 5px;
-  border-radius: 8px;
+/* ===================================== */
+/* CONTENT */
+/* ===================================== */
+
+ion-card-content{
+
+  padding-top:8px;
 }
 
-/* ================= ACTION LINKS ================= */
-.action-links {
-  text-align: right;
-  margin-top: 10px;
+/* ===================================== */
+/* INPUT */
+/* ===================================== */
+
+ion-input{
+
+  --border-radius:18px;
+
+  --background:#ffffff;
+
+  --padding-start:16px;
+
+  --padding-end:16px;
+
+  --highlight-color-focused:#2BB1BB;
+
+  margin-top:16px;
+
+  font-size:15px;
 }
 
-.action-links span {
-  color: #3880ff;
-  font-size: 14px;
-  cursor: pointer;
+/* ===================================== */
+/* BUTTON */
+/* ===================================== */
+
+ion-button{
+
+  margin-top:24px;
+
+  height:52px;
+
+  --border-radius:18px;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  letter-spacing:0.3px;
+
+  --background:
+    linear-gradient(
+      135deg,
+      #2BB1BB,
+      #1e8e96
+    );
+
+  --box-shadow:
+    0 10px 20px rgba(43,177,187,0.28);
 }
 
-/* ================= REGISTER ================= */
-.register {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
+ion-button:active{
+  transform:scale(0.98);
 }
 
-.register b {
-  color: #3880ff;
-  cursor: pointer;
-  margin-left: 5px;
+/* ===================================== */
+/* ACTION LINKS */
+/* ===================================== */
+
+.action-links{
+
+  text-align:right;
+
+  margin-top:14px;
+}
+
+.action-links span{
+
+  color:#2BB1BB;
+
+  font-size:14px;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* ===================================== */
+/* REGISTER */
+/* ===================================== */
+
+.register{
+
+  text-align:center;
+
+  margin-top:22px;
+
+  margin-bottom:30px;
+
+  font-size:14px;
+
+  color:white;
+}
+
+.register b{
+
+  color:#ffffff;
+
+  font-weight:700;
+
+  margin-left:5px;
+
+  cursor:pointer;
+
+  text-decoration:underline;
+}
+
+/* ===================================== */
+/* RESPONSIVE */
+/* ===================================== */
+
+@media screen and (max-width:360px){
+
+  .logo-container img{
+
+    width:150px;
+  }
+
+  ion-card{
+
+    border-radius:24px;
+  }
+
+  ion-card-title{
+
+    font-size:24px;
+  }
+}
+
+@media screen and (min-width:768px){
+
+  .container{
+
+    max-width:500px;
+
+    margin:auto;
+  }
 }

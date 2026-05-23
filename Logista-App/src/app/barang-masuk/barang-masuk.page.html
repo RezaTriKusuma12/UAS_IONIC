@@ -1,8 +1,8 @@
-<ion-header>
+<ion-header translucent="true">
 
-  <ion-toolbar color="primary">
+  <ion-toolbar class="modern-toolbar">
 
-    <!-- BUTTON BACK -->
+    <!-- BACK -->
 
     <ion-buttons slot="start">
 
@@ -16,141 +16,184 @@
 
     <ion-title>
 
-      Mencatat Barang Masuk
+      Barang Masuk
 
     </ion-title>
 
   </ion-toolbar>
 
 </ion-header>
-<ion-content class="ion-padding">
 
-  <ion-card
-    class="info-card"
-    *ngFor="let item of pemesananList">
+<ion-content
+  fullscreen="true"
+  class="barang-masuk-content">
 
-    <ion-card-content>
+  <!-- LIST -->
 
-      <div class="info-row">
+  <div class="content-wrapper">
 
-        <span>Nama Barang</span>
+    <ion-card
+      class="info-card"
+      *ngFor="let item of pemesananList">
 
-        <strong>
-          {{ item.nama_barang }}
-        </strong>
+      <ion-card-content>
 
-      </div>
+        <!-- HEADER CARD -->
 
-      <div class="info-row">
+        <div class="card-header">
 
-        <span>Qty Pesanan</span>
+          <div>
 
-        <strong>
-          {{ item.jumlah_pesan }} pcs
-        </strong>
+            <h2>
 
-      </div>
+              {{ item.nama_barang }}
 
-      <div class="info-row">
+            </h2>
 
-  <span>Supplier</span>
+            <p>
 
-  <strong>
-    {{ item.nama_supplier }}
-  </strong>
+              Incoming Product
 
-</div>
+            </p>
 
-      <div class="info-row">
+          </div>
 
-        <span>Status</span>
+          <ion-badge
 
-        <ion-badge
+            class="modern-badge"
 
-  [color]="
-    item.status == 'diterima'
-      ? 'success'
-      : item.status == 'ditolak'
-      ? 'danger'
-      : 'warning'
-  ">
+            [color]="
+              item.status == 'diterima'
+                ? 'success'
+                : item.status == 'ditolak'
+                ? 'danger'
+                : 'warning'
+            ">
 
-  {{ item.status }}
+            {{ item.status }}
 
-</ion-badge>
+          </ion-badge>
 
-      </div>
+        </div>
 
-      <div class="info-row">
+        <!-- INFO -->
 
-  <span>Waktu Pemesanan</span>
+        <div class="info-group">
 
-  <strong>
+          <div class="info-row">
 
-    {{ item.created_at | date:'dd MMM yyyy • HH:mm' }}
+            <span>
 
-  </strong>
+              Qty Pesanan
 
-</div>
+            </span>
 
-      <div  class="info-row"  *ngIf="item.verified_at">
+            <strong>
 
-  <span>Waktu Verifikasi</span>
+              {{ item.jumlah_pesan }} pcs
 
-  <strong>
+            </strong>
 
-    {{ item.verified_at | date:'dd MMM yyyy HH:mm' }}
+          </div>
 
-  </strong>
+          <div class="info-row">
 
-</div>
+            <span>
 
+              Supplier
 
+            </span>
 
-      <!-- ========================= -->
-<!-- BUTTON CEK BARANG -->
-<!-- ========================= -->
+            <strong>
 
-<ion-button
+              {{ item.nama_supplier }}
 
-  *ngIf="item.status == 'dikirim'"
+            </strong>
 
-  expand="block"
+          </div>
 
-  color="primary"
+          <div class="info-row">
 
-  (click)="openVerifikasi(item)">
+            <span>
 
-  CEK BARANG
+              Waktu Pemesanan
 
-</ion-button>
+            </span>
 
-<!-- ========================= -->
-<!-- BADGE DITERIMA -->
-<!-- ========================= -->
+            <strong>
 
-<div
-  class="status-finish success"
-  *ngIf="item.status == 'diterima'">
+              {{
+                item.created_at
+                | date:'dd MMM yyyy • HH:mm'
+              }}
 
-  Barang Sudah Diverifikasi
+            </strong>
 
-</div>
+          </div>
 
-<!-- ========================= -->
-<!-- BADGE DITOLAK -->
-<!-- ========================= -->
+          <div
+            class="info-row"
+            *ngIf="item.verified_at">
 
-<div
-  class="status-finish danger"
-  *ngIf="item.status == 'ditolak'">
+            <span>
 
-  Barang Ditolak
+              Waktu Verifikasi
 
-</div>
+            </span>
 
-    </ion-card-content>
+            <strong>
 
-  </ion-card>
+              {{
+                item.verified_at
+                | date:'dd MMM yyyy • HH:mm'
+              }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <ion-button
+
+          *ngIf="item.status == 'dikirim'"
+
+          expand="block"
+
+          class="verify-btn"
+
+          (click)="openVerifikasi(item)">
+
+          CEK BARANG
+
+        </ion-button>
+
+        <!-- SUCCESS -->
+
+        <div
+          class="status-finish success"
+          *ngIf="item.status == 'diterima'">
+
+          Barang Sudah Diverifikasi
+
+        </div>
+
+        <!-- DANGER -->
+
+        <div
+          class="status-finish danger"
+          *ngIf="item.status == 'ditolak'">
+
+          Barang Ditolak
+
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
 
 </ion-content>
