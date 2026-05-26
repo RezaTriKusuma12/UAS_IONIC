@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // ⚠️ GANTI kalau pakai HP (pakai IP, bukan localhost)
-  apiUrl = 'http://localhost:3000'; // ganti IP kamu
+  // backend berjalan di port 3000, sesuaikan di sini
+  apiUrl = environment.apiUrl;// ganti IP kamu jika memakai device
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable }
+from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient
+} from '@angular/common/http';
+
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +13,42 @@ import { HttpClient } from '@angular/common/http';
 
 export class NotificationService {
 
-  apiUrl =
-    'http://localhost:3000/api';
+  // =====================================
+  // API URL
+  // =====================================
+
+ // Saat ionic serve di browser lokal
+  private localApiUrl = 'http://localhost:8000/api';
+
+  // Saat sudah hosting cPanel
+  private productionApiUrl = 'https://domainkamu.com/api';
+
+  apiUrl = Capacitor.isNativePlatform()
+    ? this.productionApiUrl
+    : this.localApiUrl;
+  
+    
 
   constructor(
-    private http: HttpClient
+
+    private http:
+    HttpClient
+
   ) {}
+
+  // =====================================
+  // GET NOTIFICATIONS
+  // =====================================
+
+  getNotifications() {
+
+    return this.http.get(
+
+      `${this.apiUrl}/notifications`
+
+    );
+
+  }
 
   // =====================================
   // GET NOTIFICATION COUNT
@@ -29,15 +64,24 @@ export class NotificationService {
 
   }
 
+  saveFcmToken(data: any) {
+    return this.http.post(
+      `${this.apiUrl}/save-fcm-token`,
+      data
+    );
+  }
+
   // =====================================
-  // GET NOTIFICATIONS
+  // READ NOTIFICATIONS
   // =====================================
 
-  getNotifications() {
+  readNotifications() {
 
-    return this.http.get(
+    return this.http.put(
 
-      `${this.apiUrl}/notifications`
+      `${this.apiUrl}/notifications-read`,
+
+      {}
 
     );
 

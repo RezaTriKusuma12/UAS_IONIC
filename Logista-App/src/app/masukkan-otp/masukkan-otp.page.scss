@@ -1,15 +1,38 @@
+:host {
+  --primary: #2bb1bb;
+  --primary-dark: #1e8e96;
+  --input-bg: rgba(255, 255, 255, 0.97);
+  --text-main: #0f172a;
+  --border-color: #cbd5e1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --input-bg: #111827;
+    --text-main: #f8fafc;
+    --border-color: #334155;
+  }
+}
+
+:host-context(body.dark) {
+  --input-bg: #111827;
+  --text-main: #f8fafc;
+  --border-color: #334155;
+}
+
 /* ===================================== */
 /* BACKGROUND */
 /* ===================================== */
 
-ion-content{
-
+ion-content.otp-content {
   --background:
     linear-gradient(
       180deg,
       #2BB1BB 0%,
       #1e8e96 100%
     );
+
+  overflow-x: hidden;
 
   font-family:
     'Inter',
@@ -21,160 +44,191 @@ ion-content{
 /* LOGO */
 /* ===================================== */
 
-.logo-container{
+.logo-container {
+  display: flex;
 
-  display:flex;
+  justify-content: center;
 
-  justify-content:center;
-
-  align-items:center;
+  align-items: center;
 
   padding-top:
     calc(env(safe-area-inset-top) + 45px);
 
-  margin-bottom:28px;
+  margin-bottom: 28px;
 }
 
-.logo-container img{
+.logo-container img {
+  width: 180px;
 
-  width:180px;
+  max-width: 70vw;
 
-  max-width:70vw;
+  height: auto;
 
-  height:auto;
+  object-fit: contain;
 
-  object-fit:contain;
-
-  border-radius:24px;
+  border-radius: 24px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.18);
+    0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
 /* ===================================== */
 /* OTP TEXT */
 /* ===================================== */
 
-.otp-text{
+.otp-text {
+  text-align: center;
 
-  text-align:center;
+  font-size: clamp(22px, 7vw, 26px);
 
-  font-size:26px;
+  font-weight: 800;
 
-  font-weight:700;
+  color: #ffffff;
 
-  color:white;
+  margin-bottom: 28px;
 
-  margin-bottom:28px;
-
-  letter-spacing:0.3px;
+  letter-spacing: 0.3px;
 }
 
 /* ===================================== */
 /* OTP CONTAINER */
 /* ===================================== */
 
-ion-grid{
+ion-grid {
+  width: 100%;
 
-  max-width:420px;
+  max-width: 420px;
 
-  margin:auto;
+  margin: auto;
 
-  padding:0 10px;
+  padding: 0 4px;
 }
 
-ion-row{
+ion-row {
+  gap: 10px;
 
-  gap:10px;
+  justify-content: center;
 
-  justify-content:center;
+  flex-wrap: nowrap;
 }
 
 /* ===================================== */
 /* OTP BOX */
 /* ===================================== */
 
-ion-col{
+ion-col {
+  padding: 0;
 
-  padding:0;
+  max-width: 70px;
 }
 
-ion-input{
+ion-input {
+  --background: var(--input-bg);
 
-  --background:
-    rgba(255,255,255,0.97);
+  --color: var(--text-main);
 
-  --border-radius:20px;
+  --border-radius: 20px;
 
-  --highlight-color-focused:#2BB1BB;
+  --border-color: var(--border-color);
 
-  height:70px;
+  --highlight-color-focused: var(--primary);
 
-  font-size:28px;
+  height: 70px;
 
-  font-weight:700;
+  color: var(--text-main);
 
-  text-align:center;
+  font-size: 28px;
 
-  color:#0f172a;
+  font-weight: 800;
+
+  text-align: center;
 
   box-shadow:
-    0 8px 20px rgba(0,0,0,0.12);
+    0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 /* ===================================== */
 /* BUTTON */
 /* ===================================== */
 
-ion-button{
-
-  max-width:420px;
+.verify-btn {
+  max-width: 420px;
 
   margin:
     35px auto 0;
 
-  height:54px;
+  min-height: 54px;
 
-  --border-radius:18px;
+  --border-radius: 18px;
 
-  font-size:15px;
+  --background: #ffffff;
 
-  font-weight:700;
-
-  letter-spacing:0.5px;
-
-  --background:white;
-
-  color:#2BB1BB;
+  --color: var(--primary);
 
   --box-shadow:
-    0 10px 20px rgba(0,0,0,0.18);
+    0 10px 20px rgba(0, 0, 0, 0.18);
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+
+  text-transform: none;
 }
 
-ion-button:active{
-  transform:scale(0.98);
+.verify-btn:active {
+  transform: scale(0.98);
 }
 
 /* ===================================== */
 /* RESPONSIVE */
 /* ===================================== */
 
-@media screen and (max-width:360px){
+@media screen and (max-width: 380px) {
+  .logo-container {
+    padding-top:
+      calc(env(safe-area-inset-top) + 34px);
 
-  .otp-text{
-
-    font-size:22px;
+    margin-bottom: 24px;
   }
 
-  ion-input{
+  .logo-container img {
+    width: 150px;
 
-    height:62px;
-
-    font-size:24px;
+    border-radius: 20px;
   }
 
-  .logo-container img{
+  .otp-text {
+    margin-bottom: 24px;
+  }
 
-    width:150px;
+  ion-row {
+    gap: 8px;
+  }
+
+  ion-input {
+    height: 62px;
+
+    font-size: 24px;
+
+    --border-radius: 16px;
+  }
+
+  .verify-btn {
+    min-height: 50px;
+
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-height: 640px) {
+  .logo-container {
+    padding-top:
+      calc(env(safe-area-inset-top) + 24px);
+  }
+
+  .logo-container img {
+    width: 145px;
   }
 }

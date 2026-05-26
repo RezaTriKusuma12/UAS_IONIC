@@ -101,7 +101,9 @@ export class BarangKeluarPage {
 
   submitBarangKeluar() {
 
-    // validasi
+    // =====================================
+    // VALIDASI
+    // =====================================
 
     if (!this.barangDipilih) {
 
@@ -119,7 +121,9 @@ export class BarangKeluarPage {
 
     }
 
-    // ambil user login
+    // =====================================
+    // AMBIL USER LOGIN
+    // =====================================
 
     const user = JSON.parse(
 
@@ -127,25 +131,33 @@ export class BarangKeluarPage {
 
     );
 
-    // body request
+    // =====================================
+    // BODY REQUEST
+    // =====================================
 
     const body = {
 
       user_id: user.id,
 
-      barang_id: this.barangDipilih.id,
+      barang_id:
+      this.barangDipilih.id,
 
-      qty_keluar: this.qtyKeluar,
+      qty_keluar:
+      Number(this.qtyKeluar),
 
-      tujuan_rak: this.tujuanRak,
+      tujuan_rak:
+      this.tujuanRak,
 
-      catatan: this.catatan
+      catatan:
+      this.catatan
 
     };
 
     console.log(body);
 
-    // request api
+    // =====================================
+    // REQUEST API
+    // =====================================
 
     this.barangKeluarService
 
@@ -159,7 +171,9 @@ export class BarangKeluarPage {
 
         alert(res.message);
 
-        // reset form
+        // =====================================
+        // RESET FORM
+        // =====================================
 
         this.qtyKeluar = 0;
 
@@ -167,7 +181,17 @@ export class BarangKeluarPage {
 
         this.catatan = '';
 
-        // reload barang
+        // =====================================
+        // RESET PILIHAN BARANG
+        // =====================================
+
+        this.barangDipilih = null;
+
+        this.barang_id = '';
+
+        // =====================================
+        // REFRESH DATA BARANG
+        // =====================================
 
         this.loadBarang();
 
@@ -177,7 +201,13 @@ export class BarangKeluarPage {
 
         console.log(err);
 
-        alert(err.error.message);
+        alert(
+
+          err?.error?.message ||
+
+          'Terjadi kesalahan'
+
+        );
 
       }
 

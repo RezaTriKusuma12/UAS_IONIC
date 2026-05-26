@@ -122,7 +122,7 @@ export class MutasiBarangPage {
 
   if (
     this.qtyMutasi >
-    this.selectedBarang.stok
+    this.selectedBarang.stok_gudang
   ) {
 
     alert(

@@ -1,161 +1,104 @@
-<ion-header>
-
-  <ion-toolbar>
-
-    <!-- BACK BUTTON -->
+<ion-header class="app-header">
+  <ion-toolbar class="modern-toolbar">
     <ion-buttons slot="start">
-
-      <ion-back-button
-        defaultHref="/home">
-      </ion-back-button>
-
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
 
-    <!-- TITLE -->
-    <ion-title>
-
-      Mutasi Barang
-
-    </ion-title>
-
+    <ion-title>Mutasi Barang</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content [fullscreen]="true" class="mutasi-content">
+  <div class="page-container">
 
-  <ion-card>
+    <ion-card class="form-card">
+      <ion-card-header>
+        <ion-card-title>Form Mutasi Barang</ion-card-title>
+        
+      </ion-card-header>
 
-    <ion-card-content>
+      <ion-card-content>
 
-      <!-- PILIH BARANG -->
-      <ion-item>
+        <ion-item class="form-item">
+          <ion-select
+            label="Pilih Barang"
+            labelPlacement="stacked"
+            interface="popover"
+            placeholder="Pilih barang"
+            [(ngModel)]="selectedBarang">
 
-        <ion-label>
-          Pilih Barang
-        </ion-label>
+            <ion-select-option
+              *ngFor="let item of barangList"
+              [value]="item">
+              {{ item.nama_barang }}
+            </ion-select-option>
 
-        <ion-select
-          [(ngModel)]="selectedBarang">
+          </ion-select>
+        </ion-item>
 
-          <ion-select-option
-            *ngFor="let item of barangList"
-            [value]="item">
+        <div *ngIf="selectedBarang" class="stok-info">
+          <div class="stok-row">
+            <span>Stok Gudang</span>
+            <strong>{{ selectedBarang.stok_gudang }}</strong>
+          </div>
 
-            {{ item.nama_barang }}
+          <div class="stok-row">
+            <span>Stok Rak</span>
+            <strong>{{ selectedBarang.stok_rak || 0 }}</strong>
+          </div>
+        </div>
 
-          </ion-select-option>
+        <ion-item class="form-item">
+          <ion-input
+            type="number"
+            inputmode="numeric"
+            min="1"
+            label="Qty Mutasi"
+            labelPlacement="stacked"
+            placeholder="Masukkan qty mutasi"
+            [(ngModel)]="qtyMutasi">
+          </ion-input>
+        </ion-item>
 
-        </ion-select>
+        <ion-item class="form-item">
+          <ion-input
+            label="Lokasi Asal"
+            labelPlacement="stacked"
+            placeholder="Contoh: Gudang"
+            [(ngModel)]="lokasiAsal">
+          </ion-input>
+        </ion-item>
 
-      </ion-item>
+        <ion-item class="form-item">
+          <ion-input
+            label="Lokasi Tujuan"
+            labelPlacement="stacked"
+            placeholder="Contoh: Rak A1"
+            [(ngModel)]="lokasiTujuan">
+          </ion-input>
+        </ion-item>
 
-      <!-- INFO STOK -->
-      <div
-        *ngIf="selectedBarang"
-        class="stok-info">
+        <ion-item class="form-item textarea-item">
+          <ion-textarea
+            label="Catatan"
+            labelPlacement="stacked"
+            placeholder="Tambahkan catatan jika ada"
+            rows="4"
+            autoGrow="true"
+            [(ngModel)]="catatan">
+          </ion-textarea>
+        </ion-item>
 
-        <p>
+        <ion-button
+          expand="block"
+          class="submit-btn"
+          [disabled]="!selectedBarang || !qtyMutasi || qtyMutasi <= 0 || !lokasiAsal || !lokasiTujuan"
+          (click)="submitMutasi()">
+          Simpan Mutasi
+        </ion-button>
 
-          <span>
-            Stok Gudang
-          </span>
+      </ion-card-content>
+    </ion-card>
 
-          <strong>
-            {{ selectedBarang.stok_gudang }}
-          </strong>
-
-        </p>
-
-        <p>
-
-          <span>
-            Stok Rak
-          </span>
-
-          <strong>
-            {{ selectedBarang.stok_rak || 0 }}
-          </strong>
-
-        </p>
-
-      </div>
-
-      <!-- QTY -->
-      <ion-item>
-
-        <ion-label position="stacked">
-
-          Qty Mutasi
-
-        </ion-label>
-
-        <ion-input
-          type="number"
-          [(ngModel)]="qtyMutasi">
-        </ion-input>
-
-      </ion-item>
-
-      <!-- LOKASI ASAL -->
-      <ion-item>
-
-        <ion-label position="stacked">
-
-          Lokasi Asal
-
-        </ion-label>
-
-        <ion-input
-          [(ngModel)]="lokasiAsal">
-        </ion-input>
-
-      </ion-item>
-
-      <!-- LOKASI TUJUAN -->
-      <ion-item>
-
-        <ion-label position="stacked">
-
-          Lokasi Tujuan
-
-        </ion-label>
-
-        <ion-input
-          [(ngModel)]="lokasiTujuan">
-        </ion-input>
-
-      </ion-item>
-
-      <!-- CATATAN -->
-      <ion-item>
-
-        <ion-label position="stacked">
-
-          Catatan
-
-        </ion-label>
-
-        <ion-textarea
-          rows="4"
-          [(ngModel)]="catatan">
-        </ion-textarea>
-
-      </ion-item>
-
-      <!-- BUTTON -->
-      <ion-button
-        expand="block"
-        color="warning"
-        class="ion-margin-top"
-        (click)="submitMutasi()">
-
-        SIMPAN MUTASI
-
-      </ion-button>
-
-    </ion-card-content>
-
-  </ion-card>
-
+  </div>
 </ion-content>

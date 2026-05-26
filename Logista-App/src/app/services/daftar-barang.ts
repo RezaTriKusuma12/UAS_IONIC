@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BarangService {
 
-  apiUrl = 'http://localhost:3000/api'; // GANTI IP KAMU
+  apiUrl = 'http://localhost:8000/api'; // GANTI IP KAMU
 
   constructor(private http: HttpClient) {}
 

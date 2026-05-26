@@ -1,8 +1,8 @@
-<ion-header translucent="true">
+<ion-header
+  translucent="true"
+  class="app-header">
 
   <ion-toolbar class="modern-toolbar">
-
-    <!-- BACK -->
 
     <ion-buttons slot="start">
 
@@ -12,12 +12,8 @@
 
     </ion-buttons>
 
-    <!-- TITLE -->
-
     <ion-title>
-
       Daftar Barang
-
     </ion-title>
 
   </ion-toolbar>
@@ -25,7 +21,7 @@
 </ion-header>
 
 <ion-content
-  fullscreen="true"
+  [fullscreen]="true"
   class="barang-content">
 
   <div class="content-wrapper">
@@ -33,11 +29,32 @@
     <!-- SEARCH -->
 
     <ion-searchbar
-      placeholder="Cari barang..."
+      placeholder="Cari nama atau kode barang..."
       animated="true"
+      debounce="300"
       class="modern-search"
       (ionInput)="filterBarang($event)">
     </ion-searchbar>
+
+    <!-- EMPTY STATE -->
+
+    <div
+      class="empty-state"
+      *ngIf="!barangList || barangList.length === 0">
+
+      <div class="empty-icon">
+        📦
+      </div>
+
+      <h2>
+        Barang Tidak Ditemukan
+      </h2>
+
+      <p>
+        Data barang akan tampil di sini. Coba gunakan kata kunci lain jika sedang mencari barang.
+      </p>
+
+    </div>
 
     <!-- CARD -->
 
@@ -54,15 +71,11 @@
           <div class="barang-info">
 
             <h2>
-
               {{ item.nama_barang }}
-
             </h2>
 
             <p class="kode">
-
-              {{ item.kode_barang }}
-
+              {{ item.kode_barang || '-' }}
             </p>
 
           </div>
@@ -70,9 +83,7 @@
           <!-- BADGE -->
 
           <ion-badge
-
             class="modern-badge danger"
-
             *ngIf="item.total_stok <= item.stok_minimum">
 
             Stok Menipis
@@ -80,9 +91,7 @@
           </ion-badge>
 
           <ion-badge
-
             class="modern-badge success"
-
             *ngIf="item.total_stok > item.stok_minimum">
 
             Aman
@@ -93,7 +102,8 @@
 
         <!-- DETAIL BUTTON -->
 
-        <div
+        <button
+          type="button"
           class="lihat-detail"
           (click)="toggleDetail(item)">
 
@@ -106,20 +116,20 @@
           </ion-icon>
 
           <span>
-
             {{
               item.showDetail
                 ? 'Sembunyikan Detail'
                 : 'Lihat Detail'
             }}
-
           </span>
 
-        </div>
+        </button>
 
         <!-- DETAIL -->
 
-        <div *ngIf="item.showDetail">
+        <div
+          class="detail-section"
+          *ngIf="item.showDetail">
 
           <div class="divider"></div>
 
@@ -137,19 +147,15 @@
 
               </div>
 
-              <div>
+              <div class="info-text">
 
                 <span>
-
                   Total Stok
-
                 </span>
 
                 <strong>
-
                   {{ item.total_stok }}
                   {{ item.satuan }}
-
                 </strong>
 
               </div>
@@ -168,18 +174,15 @@
 
               </div>
 
-              <div>
+              <div class="info-text">
 
                 <span>
-
                   Gudang
-
                 </span>
 
                 <strong>
-
                   {{ item.stok_gudang }}
-
+                  {{ item.satuan }}
                 </strong>
 
               </div>
@@ -198,18 +201,15 @@
 
               </div>
 
-              <div>
+              <div class="info-text">
 
                 <span>
-
                   Stok Rak
-
                 </span>
 
                 <strong>
-
                   {{ item.stok_rak }}
-
+                  {{ item.satuan }}
                 </strong>
 
               </div>
@@ -228,18 +228,14 @@
 
               </div>
 
-              <div>
+              <div class="info-text">
 
                 <span>
-
                   Lokasi Rak
-
                 </span>
 
                 <strong>
-
-                  {{ item.lokasi_rak }}
-
+                  {{ item.lokasi_rak || '-' }}
                 </strong>
 
               </div>

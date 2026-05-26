@@ -1,8 +1,8 @@
-<ion-header translucent="true">
+<ion-header
+  translucent="true"
+  class="app-header">
 
   <ion-toolbar class="modern-toolbar">
-
-    <!-- BACK -->
 
     <ion-buttons slot="start">
 
@@ -12,12 +12,8 @@
 
     </ion-buttons>
 
-    <!-- TITLE -->
-
     <ion-title>
-
       Barang Masuk
-
     </ion-title>
 
   </ion-toolbar>
@@ -25,12 +21,32 @@
 </ion-header>
 
 <ion-content
-  fullscreen="true"
+  [fullscreen]="true"
   class="barang-masuk-content">
 
-  <!-- LIST -->
-
   <div class="content-wrapper">
+
+    <!-- EMPTY STATE -->
+
+    <div
+      class="empty-state"
+      *ngIf="!pemesananList || pemesananList.length === 0">
+
+      <div class="empty-icon">
+        📦
+      </div>
+
+      <h2>
+        Belum Ada Barang Masuk
+      </h2>
+
+      <p>
+        Data pemesanan barang akan muncul di sini setelah dibuat dari sistem.
+      </p>
+
+    </div>
+
+    <!-- LIST CARD -->
 
     <ion-card
       class="info-card"
@@ -42,35 +58,31 @@
 
         <div class="card-header">
 
-          <div>
+          <div class="product-title">
 
             <h2>
-
               {{ item.nama_barang }}
-
             </h2>
 
             <p>
-
-              Incoming Product
-
+              Produk Masuk
             </p>
 
           </div>
 
           <ion-badge
-
             class="modern-badge"
+            [class.badge-success]="item.status == 'diterima'"
+            [class.badge-danger]="item.status == 'ditolak'"
+            [class.badge-warning]="item.status == 'pending'">
 
-            [color]="
+            {{
               item.status == 'diterima'
-                ? 'success'
+                ? 'Diterima'
                 : item.status == 'ditolak'
-                ? 'danger'
-                : 'warning'
-            ">
-
-            {{ item.status }}
+                ? 'Ditolak'
+                : 'Pending'
+            }}
 
           </ion-badge>
 
@@ -83,15 +95,11 @@
           <div class="info-row">
 
             <span>
-
               Qty Pesanan
-
             </span>
 
             <strong>
-
               {{ item.jumlah_pesan }} pcs
-
             </strong>
 
           </div>
@@ -99,15 +107,11 @@
           <div class="info-row">
 
             <span>
-
               Supplier
-
             </span>
 
             <strong>
-
-              {{ item.nama_supplier }}
-
+              {{ item.nama_supplier || '-' }}
             </strong>
 
           </div>
@@ -115,18 +119,14 @@
           <div class="info-row">
 
             <span>
-
               Waktu Pemesanan
-
             </span>
 
             <strong>
-
               {{
                 item.created_at
                 | date:'dd MMM yyyy • HH:mm'
               }}
-
             </strong>
 
           </div>
@@ -136,41 +136,33 @@
             *ngIf="item.verified_at">
 
             <span>
-
               Waktu Verifikasi
-
             </span>
 
             <strong>
-
               {{
                 item.verified_at
                 | date:'dd MMM yyyy • HH:mm'
               }}
-
             </strong>
 
           </div>
 
         </div>
 
-        <!-- BUTTON -->
+        <!-- BUTTON PENDING -->
 
         <ion-button
-
-          *ngIf="item.status == 'dikirim'"
-
+          *ngIf="item.status == 'pending'"
           expand="block"
-
           class="verify-btn"
-
           (click)="openVerifikasi(item)">
 
-          CEK BARANG
+          Cek Barang
 
         </ion-button>
 
-        <!-- SUCCESS -->
+        <!-- STATUS DITERIMA -->
 
         <div
           class="status-finish success"
@@ -180,13 +172,13 @@
 
         </div>
 
-        <!-- DANGER -->
+        <!-- STATUS DITOLAK -->
 
         <div
           class="status-finish danger"
           *ngIf="item.status == 'ditolak'">
 
-          Barang Ditolak
+          Barang Ditolak / Tidak Sesuai
 
         </div>
 

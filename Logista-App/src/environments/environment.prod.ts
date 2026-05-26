@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://domain-anda.com/api'  // ← Ganti dengan domain asli nanti
 };

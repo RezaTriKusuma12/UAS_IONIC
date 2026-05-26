@@ -10,7 +10,7 @@ from '@angular/common/http';
 export class MutasiBarangService {
 
   apiUrl =
-    'http://localhost:3000/api';
+    'http://localhost:8000/api';
 
   constructor(private http: HttpClient ) {}
 

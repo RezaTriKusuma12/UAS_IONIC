@@ -1,429 +1,169 @@
-<div class="mobile-container">
+<ion-content [fullscreen]="true" class="home-content">
+  <div class="mobile-container">
 
-  <!-- HEADER -->
-  <div class="header-blue">
+    <div class="header-blue">
 
-    <!-- NOTIFICATION POPUP -->
+      <div *ngIf="showNotification" class="notif-popup">
+        <div class="notif-header">Notifications</div>
 
-    <div
-      *ngIf="showNotification"
-      class="notif-popup">
-
-      <div class="notif-header">
-
-        Notifications
-
-      </div>
-
-      <div
-        class="notif-item"
-        *ngFor="let notif of notifications"
-        (click)="openBarangMasuk()">
-
-        <div class="notif-icon">
-
-          ⬇️
-
+        <div class="notif-empty" *ngIf="!notifications || notifications.length === 0">
+          Tidak ada notifikasi baru
         </div>
 
-        <div class="notif-content">
-
-          <div class="notif-title">
-
-            {{ notif.title }}
-
+        <div class="notif-item" *ngFor="let notif of notifications" (click)="openBarangMasuk()">
+          <div class="notif-icon">⬇️</div>
+          <div class="notif-content">
+            <div class="notif-title">{{ notif.title }}</div>
+            <div class="notif-message">{{ notif.message }}</div>
+            <div class="notif-time">{{ notif.created_at | date:'dd MMM • HH:mm' }}</div>
           </div>
-
-          <div class="notif-message">
-
-            {{ notif.message }}
-
-          </div>
-
-          <div class="notif-time">
-
-            {{
-              notif.created_at
-              | date:'dd MMM • HH:mm'
-            }}
-
-          </div>
-
         </div>
-
       </div>
 
-    </div>
+      <ion-modal [isOpen]="showProfile" (didDismiss)="showProfile = false">
+        <ng-template>
+          <ion-content class="profile-content">
+            <div class="profile-wrapper">
+              <div class="profile-top">
+                <div class="avatar">👤</div>
+                <h2>{{ user?.name }}</h2>
+                <p>{{ user?.email }}</p>
+              </div>
 
-    <!-- PROFILE MODAL -->
+              <ion-card class="profile-card">
+                <ion-card-content>
+                  <div class="profile-info-item">
+                    <strong>Nama</strong>
+                    <span>{{ user?.name }}</span>
+                  </div>
 
-    <ion-modal
-      [isOpen]="showProfile"
-      (didDismiss)="showProfile = false">
+                  <div class="profile-info-item">
+                    <strong>Email</strong>
+                    <span>{{ user?.email }}</span>
+                  </div>
 
-      <ng-template>
+                  <div class="profile-info-item">
+                    <strong>Role</strong>
+                    <span>{{ user?.role || 'Operator' }}</span>
+                  </div>
+                </ion-card-content>
+              </ion-card>
 
-        <ion-content class="ion-padding">
+              <ion-button expand="block" color="danger" class="logout-btn" (click)="logout()">
+                Logout
+              </ion-button>
 
-          <div class="profile-top">
-
-            <div class="avatar">
-
-              👤
-
+              <ion-button expand="block" fill="outline" class="close-btn" (click)="showProfile = false">
+                Tutup
+              </ion-button>
             </div>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
 
-            <h2>
+      <div class="top-header">
+        <div class="logo-text">Logista</div>
 
-              {{ user?.name }}
+        <div class="header-icons">
+          <button type="button" class="icon-btn" (click)="toggleNotification()">
+            🔔
+            <span *ngIf="notificationCount > 0" class="notif-badge">
+              {{ notificationCount }}
+            </span>
+          </button>
 
-            </h2>
-
-            <p>
-
-              {{ user?.email }}
-
-            </p>
-
-          </div>
-
-          <ion-card>
-
-            <ion-card-content>
-
-              <div class="info-item">
-
-                <strong>Nama</strong>
-
-                <span>{{ user?.name }}</span>
-
-              </div>
-
-              <div class="info-item">
-
-                <strong>Email</strong>
-
-                <span>{{ user?.email }}</span>
-
-              </div>
-
-              <div class="info-item">
-
-                <strong>Role</strong>
-
-                <span>{{ user?.role || 'Operator' }}</span>
-
-              </div>
-
-            </ion-card-content>
-
-          </ion-card>
-
-          <ion-button
-            expand="block"
-            color="danger"
-            (click)="logout()">
-
-            Logout
-
-          </ion-button>
-
-          <ion-button
-            expand="block"
-            fill="outline"
-            (click)="showProfile = false">
-
-            Tutup
-
-          </ion-button>
-
-        </ion-content>
-
-      </ng-template>
-
-    </ion-modal>
-
-    <!-- TOP HEADER -->
-
-    <div class="top-header">
-
-      <div class="logo-text">
-
-        Logista
-
+          <button type="button" class="icon-btn" (click)="showProfile = true">
+            👤
+          </button>
+        </div>
       </div>
 
-      <div class="header-icons">
+      <div class="header-title">
+        <h1>Hi {{ user?.name }}</h1>
+        <p>Let's Start Working</p>
+      </div>
 
-        <!-- NOTIF -->
+      <div class="search-wrapper">
+        <ion-searchbar
+          placeholder="Cari barang..."
+          animated="true"
+          debounce="300"
+          (ionInput)="filterBarang($event)">
+        </ion-searchbar>
+      </div>
 
-        <div
-          class="icon-btn"
-          (click)="toggleNotification()">
-
-          🔔
-
-          <span
-            *ngIf="notificationCount > 0"
-            class="notif-badge">
-
-            {{ notificationCount }}
-
-          </span>
-
+      <div class="search-result" *ngIf="searchResults.length > 0">
+        <div class="search-item" *ngFor="let item of searchResults" (click)="goToBarang()">
+          <strong>{{ item.nama_barang }}</strong>
+          <p>{{ item.kode_barang }}</p>
         </div>
-
-        <!-- PROFILE -->
-
-        <div
-          class="icon-btn"
-          (click)="showProfile = true">
-
-          👤
-
-        </div>
-
       </div>
 
     </div>
 
-    <!-- TITLE -->
+    <div class="menu-grid">
+      <button type="button" class="menu-card" (click)="goToBarang()">
+        <div class="icon-placeholder">📦</div>
+        <span>Daftar Barang</span>
+      </button>
 
-    <div class="header-title">
+      <button type="button" class="menu-card" (click)="goToUpdateStok()">
+        <div class="icon-placeholder">➕</div>
+        <span>Stok Monitoring</span>
+      </button>
 
-      <h1>
+      <button type="button" class="menu-card" (click)="goToBarangMasuk()">
+        <div class="icon-placeholder">⬇️</div>
+        <span>Barang Masuk</span>
+      </button>
 
-        Hi {{ user?.name }}
+      <button type="button" class="menu-card" (click)="goToBarangKeluar()">
+        <div class="icon-placeholder">⬆️</div>
+        <span>Barang Keluar</span>
+      </button>
 
-      </h1>
+      <button type="button" class="menu-card" (click)="goTomutasiBarang()">
+        <div class="icon-placeholder">🔄</div>
+        <span>Mutasi Barang</span>
+      </button>
 
-      <p>
-
-        Let's Start Working
-
-      </p>
-
+      <button type="button" class="menu-card" (click)="goToHistori()">
+        <div class="icon-placeholder">🕒</div>
+        <span>History</span>
+      </button>
     </div>
 
-    <!-- SEARCH -->
+    <div class="product-section">
+      <div class="product-title">Products</div>
 
-    <div class="search-wrapper">
+      <swiper-container
+        [slidesPerView]="2.3"
+        [spaceBetween]="12"
+        [loop]="true"
+        [autoplay]="{ delay: 2000 }">
 
-      <ion-searchbar
-        placeholder="Cari barang..."
-        animated="true"
-        (ionInput)="filterBarang($event)">
-      </ion-searchbar>
+        <swiper-slide>
+          <img src="assets/airmineral.webp" class="product-img" alt="Air Mineral">
+        </swiper-slide>
 
-    </div>
+        <swiper-slide>
+          <img src="assets/beras.webp" class="product-img" alt="Beras">
+        </swiper-slide>
 
-    <!-- SEARCH RESULT -->
+        <swiper-slide>
+          <img src="assets/gula.webp" class="product-img" alt="Gula">
+        </swiper-slide>
 
-    <div
-      class="search-result"
-      *ngIf="searchResults.length > 0">
+        <swiper-slide>
+          <img src="assets/mieinstan.webp" class="product-img" alt="Mie Instan">
+        </swiper-slide>
 
-      <div
-        class="search-item"
-        *ngFor="let item of searchResults"
-        (click)="goToBarang()">
+        <swiper-slide>
+          <img src="assets/minyak.webp" class="product-img" alt="Minyak">
+        </swiper-slide>
 
-        <div>
-
-          <strong>
-
-            {{ item.nama_barang }}
-
-          </strong>
-
-          <p>
-
-            {{ item.kode_barang }}
-
-          </p>
-
-        </div>
-
-      </div>
-
+      </swiper-container>
     </div>
 
   </div>
-
-  <!-- MENU -->
-
-  <div class="menu-grid">
-
-    <div
-      class="menu-card"
-      (click)="goToBarang()">
-
-      <div class="icon-placeholder">
-
-        📦
-
-      </div>
-
-      <span>
-
-        Daftar Barang
-
-      </span>
-
-    </div>
-
-    <div
-      class="menu-card"
-      (click)="goToUpdateStok()">
-
-      <div class="icon-placeholder">
-
-        ➕
-
-      </div>
-
-      <span>
-
-        Stok Monitoring
-
-      </span>
-
-    </div>
-
-    <div
-      class="menu-card"
-      (click)="goToBarangMasuk()">
-
-      <div class="icon-placeholder">
-
-        ⬇️
-
-      </div>
-
-      <span>
-
-        Barang Masuk
-
-      </span>
-
-    </div>
-
-    <div
-      class="menu-card"
-      (click)="goToBarangKeluar()">
-
-      <div class="icon-placeholder">
-
-        ⬆️
-
-      </div>
-
-      <span>
-
-        Barang Keluar
-
-      </span>
-
-    </div>
-
-    <div
-      class="menu-card"
-      (click)="goTomutasiBarang()">
-
-      <div class="icon-placeholder">
-
-        🔄
-
-      </div>
-
-      <span>
-
-        Mutasi Barang
-
-      </span>
-
-    </div>
-
-    <div
-      class="menu-card"
-      (click)="goToHistori()">
-
-      <div class="icon-placeholder">
-
-        🕒
-
-      </div>
-
-      <span>
-
-        History
-
-      </span>
-
-    </div>
-
-  </div>
-
-  <!-- PRODUCT -->
-
-  <div class="product-section">
-
-    <div class="product-title">
-
-      Products
-
-    </div>
-
-    <swiper-container
-      [slidesPerView]="2.3"
-      [spaceBetween]="12"
-      [loop]="true"
-      [autoplay]="{
-        delay: 2000
-      }">
-
-      <swiper-slide>
-
-        <img
-          src="assets/airmineral.webp"
-          class="product-img">
-
-      </swiper-slide>
-
-      <swiper-slide>
-
-        <img
-          src="assets/beras.webp"
-          class="product-img">
-
-      </swiper-slide>
-
-      <swiper-slide>
-
-        <img
-          src="assets/gula.webp"
-          class="product-img">
-
-      </swiper-slide>
-
-      <swiper-slide>
-
-        <img
-          src="assets/mieinstan.webp"
-          class="product-img">
-
-      </swiper-slide>
-
-      <swiper-slide>
-
-        <img
-          src="assets/minyak.webp"
-          class="product-img">
-
-      </swiper-slide>
-
-    </swiper-container>
-
-  </div>
-
-</div>
+</ion-content>

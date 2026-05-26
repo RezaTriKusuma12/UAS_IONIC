@@ -23,27 +23,31 @@ export class RegisterPage implements OnInit {
   ngOnInit() {}
 
   register() {
-    if (!this.name || !this.email || !this.username || !this.password) {
-      alert('Semua field wajib diisi!');
-      return;
-    }
+  const data = {
+    email: this.email,
+    name: this.name,
+    username: this.username,
+    password: this.password
+  };
 
-    this.authService.register({
-      name: this.name,
-      email: this.email,
-      username: this.username,
-      password: this.password
-    }).subscribe({
-      next: (res) => {
-        console.log(res);
-        alert('Register berhasil');
-      },
-      error: (err) => {
-        console.log(err);
-        alert('Register gagal');
-      }
-    });
-  }
+  this.authService.register(data).subscribe({
+    next: (res: any) => {
+      console.log(res);
+
+      alert('Registrasi berhasil, silakan login');
+
+      this.router.navigate(['/login']);
+    },
+    error: (err) => {
+      console.log(err);
+
+      alert(
+        err?.error?.message ||
+        'Registrasi gagal'
+      );
+    }
+  });
+}
 
    goToLogin() {
     this.router.navigate(['/login']);

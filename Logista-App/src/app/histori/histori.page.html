@@ -1,48 +1,22 @@
-<ion-header translucent="true">
-
+<ion-header translucent="true" class="app-header">
   <ion-toolbar class="modern-toolbar">
-
-    <!-- BACK -->
-
     <ion-buttons slot="start">
-
-      <ion-back-button
-        defaultHref="/home">
-      </ion-back-button>
-
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-
-    <!-- TITLE -->
-
-    <ion-title>
-
-      History
-
-    </ion-title>
-
+    <ion-title>History</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content
-  fullscreen="true"
-  class="history-content">
-
+<ion-content [fullscreen]="true" class="history-content">
   <div class="content-wrapper">
 
-    <!-- SEARCH -->
-
-    <div class="search-container">
-
-      <ion-searchbar
-        class="modern-search"
-        placeholder="Cari barang..."
-        (ionInput)="searchHistory($event)">
-      </ion-searchbar>
-
-    </div>
-
-    <!-- FILTER -->
+    <ion-searchbar
+      class="modern-search"
+      placeholder="Cari nama atau kode barang..."
+      animated="true"
+      debounce="300"
+      (ionInput)="searchHistory($event)">
+    </ion-searchbar>
 
     <ion-segment
       scrollable="true"
@@ -67,184 +41,88 @@
       </ion-segment-button>
 
       <ion-segment-button value="barang_ditolak">
-
         <ion-label>Ditolak</ion-label>
-
       </ion-segment-button>
 
     </ion-segment>
 
-    <!-- HISTORY CARD -->
+    <div class="empty-state" *ngIf="!filteredHistory || filteredHistory.length === 0">
+      <div class="empty-icon">🕘</div>
+      <h2>History Kosong</h2>
+      <p>Riwayat transaksi barang akan muncul di sini setelah ada aktivitas masuk, keluar, mutasi, atau barang ditolak.</p>
+    </div>
 
-    <ion-card
-      *ngFor="let item of filteredHistory"
-      class="history-card">
-
+    <ion-card *ngFor="let item of filteredHistory" class="history-card">
       <ion-card-content>
 
-        <!-- TOP -->
-
         <div class="top-section">
-
-          <!-- LEFT -->
-
           <div class="left">
-
             <div class="icon-wrapper">
-
-              <ion-icon
-                [name]="getIcon(item.jenis)"
-                class="history-icon">
-              </ion-icon>
-
+              <ion-icon [name]="getIcon(item.jenis)" class="history-icon"></ion-icon>
             </div>
-
           </div>
-
-          <!-- MIDDLE -->
 
           <div class="middle">
-
-            <h2>
-
-              {{ item.nama_barang }}
-
-            </h2>
-
-            <p>
-
-              {{ item.kode_barang }}
-
-            </p>
-
+            <h2>{{ item.nama_barang }}</h2>
+            <p>{{ item.kode_barang || '-' }}</p>
           </div>
-
-          <!-- RIGHT -->
 
           <div class="right">
-
             <ion-badge
               class="modern-badge"
-              [color]="getBadgeColor(item.jenis)">
+              [class.badge-masuk]="item.jenis === 'barang_masuk'"
+              [class.badge-keluar]="item.jenis === 'barang_keluar'"
+              [class.badge-mutasi]="item.jenis === 'mutasi'"
+              [class.badge-ditolak]="item.jenis === 'barang_ditolak'">
 
-              {{ item.jenis }}
+              {{
+                item.jenis === 'barang_masuk'
+                  ? 'Masuk'
+                  : item.jenis === 'barang_keluar'
+                  ? 'Keluar'
+                  : item.jenis === 'barang_ditolak'
+                  ? 'Ditolak'
+                  : 'Mutasi'
+              }}
 
             </ion-badge>
-
           </div>
-
         </div>
-
-        <!-- DETAIL -->
 
         <div class="detail-container">
-
-          <!-- QTY -->
-
           <div class="qty-box">
-
-            <span class="label">
-
-              Qty
-
-            </span>
-
-            <span class="qty-value">
-
-              {{ item.jumlah }}
-
-            </span>
-
+            <span class="label">Qty</span>
+            <span class="qty-value">{{ item.jumlah }}</span>
           </div>
-
-          <!-- STOCK -->
 
           <div class="detail-stock">
-
-            <!-- TOTAL -->
-
             <div class="stock-row">
-
-              <span class="label">
-
-                Total
-
-              </span>
-
-              <span class="value">
-
-                {{ item.total_stok_sebelum }}
-                →
-                {{ item.total_stok_sesudah }}
-
-              </span>
-
+              <span class="label">Total</span>
+              <span class="value">{{ item.total_stok_sebelum }} → {{ item.total_stok_sesudah }}</span>
             </div>
 
-            <!-- GUDANG -->
-
             <div class="stock-row">
-
-              <span class="label">
-
-                Gudang
-
-              </span>
-
-              <span class="value">
-
-                {{ item.stok_gudang_sebelum }}
-                →
-                {{ item.stok_gudang_sesudah }}
-
-              </span>
-
+              <span class="label">Gudang</span>
+              <span class="value">{{ item.stok_gudang_sebelum }} → {{ item.stok_gudang_sesudah }}</span>
             </div>
 
-            <!-- RAK -->
-
             <div class="stock-row">
-
-              <span class="label">
-
-                Rak
-
-              </span>
-
-              <span class="value">
-
-                {{ item.stok_rak_sebelum }}
-                →
-                {{ item.stok_rak_sesudah }}
-
-              </span>
-
+              <span class="label">Rak</span>
+              <span class="value">{{ item.stok_rak_sebelum }} → {{ item.stok_rak_sesudah }}</span>
             </div>
-
           </div>
-
         </div>
 
-        <!-- NOTE -->
-
-        <div class="note-section">
-
+        <div class="note-section" *ngIf="item.keterangan">
           {{ item.keterangan }}
-
         </div>
-
-        <!-- DATE -->
 
         <div class="date-section">
-
           {{ item.created_at | date:'dd MMM yyyy • HH:mm' }}
-
         </div>
 
       </ion-card-content>
-
     </ion-card>
 
   </div>
-
 </ion-content>

@@ -1,6 +1,6 @@
-<ion-header>
+<ion-header class="app-header">
 
-  <ion-toolbar >
+  <ion-toolbar>
 
     <ion-buttons slot="start">
 
@@ -18,141 +18,147 @@
 
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content
+  class="barang-keluar-content"
+  [fullscreen]="true">
 
-  <ion-card>
+  <div class="page-container">
 
-    <ion-card-content>
+    <ion-card class="form-card">
 
-      <!-- PILIH BARANG -->
+      <ion-card-header>
 
-      <ion-item>
+        <ion-card-title>
+          Form Barang Keluar
+        </ion-card-title>
 
-        <ion-select
+        
 
-          label="Pilih Barang"
+      </ion-card-header>
 
-          labelPlacement="stacked"
+      <ion-card-content>
 
-          interface="popover"
+        <!-- PILIH BARANG -->
 
-          [(ngModel)]="barang_id"
+        <ion-item class="form-item">
 
-          (ionChange)="pilihBarang()">
+          <ion-select
+            label="Pilih Barang"
+            labelPlacement="stacked"
+            interface="popover"
+            placeholder="Pilih barang"
+            [(ngModel)]="barang_id"
+            (ionChange)="pilihBarang()">
 
-          <ion-select-option
+            <ion-select-option
+              *ngFor="let item of barangList"
+              [value]="item.id">
 
-            *ngFor="let item of barangList"
+              {{ item.nama_barang }}
 
-            [value]="item.id">
+            </ion-select-option>
 
-            {{ item.nama_barang }}
+          </ion-select>
 
-          </ion-select-option>
+        </ion-item>
 
-        </ion-select>
+        <!-- INFO BARANG -->
 
-      </ion-item>
+        <div
+          *ngIf="barangDipilih"
+          class="info-barang">
 
-      <!-- INFO BARANG -->
+          <div class="info-header">
 
-      <div
-        *ngIf="barangDipilih"
-        class="info-barang">
+            <div>
 
-        <h2>
-          {{ barangDipilih.nama_barang }}
-        </h2>
+              <h2>
+                {{ barangDipilih.nama_barang }}
+              </h2>
 
-        <p>
-          {{ barangDipilih.kode_barang }}
-        </p>
+              <p class="kode-barang">
+                {{ barangDipilih.kode_barang }}
+              </p>
 
-        <p>
+            </div>
 
-          Stok Rak :
+          </div>
 
-          <strong>
+          <div class="stok-box">
 
-            {{ barangDipilih.stok_rak }}
-            {{ barangDipilih.satuan }}
+            <span>
+              Stok Rak
+            </span>
 
-          </strong>
+            <strong>
+              {{ barangDipilih.stok_rak }}
+              {{ barangDipilih.satuan }}
+            </strong>
 
-        </p>
+          </div>
 
-      </div>
+        </div>
 
-      <!-- QTY -->
+        <!-- QTY -->
 
-      <ion-item>
+        <ion-item class="form-item">
 
-        <ion-input
+          <ion-input
+            type="number"
+            inputmode="numeric"
+            min="1"
+            label="Qty Keluar"
+            labelPlacement="stacked"
+            placeholder="Masukkan qty keluar"
+            [(ngModel)]="qtyKeluar">
+          </ion-input>
 
-          type="number"
+        </ion-item>
 
-          label="Qty Keluar"
+        <!-- TUJUAN -->
 
-          labelPlacement="stacked"
+        <ion-item class="form-item">
 
-          [(ngModel)]="qtyKeluar">
+          <ion-input
+            label="Tujuan"
+            labelPlacement="stacked"
+            placeholder="Contoh: Rak Display / Customer / Cabang"
+            [(ngModel)]="tujuanRak">
+          </ion-input>
 
-        </ion-input>
+        </ion-item>
 
-      </ion-item>
+        <!-- CATATAN -->
 
-      <!-- TUJUAN -->
+        <ion-item class="form-item textarea-item">
 
-      <ion-item>
+          <ion-textarea
+            label="Catatan"
+            labelPlacement="stacked"
+            placeholder="Tambahkan catatan jika ada"
+            rows="4"
+            autoGrow="true"
+            [(ngModel)]="catatan">
+          </ion-textarea>
 
-        <ion-input
+        </ion-item>
 
-          label="Tujuan"
+        <!-- BUTTON -->
 
-          labelPlacement="stacked"
+        <ion-button
+          expand="block"
+          class="submit-button"
+          [disabled]="!barang_id || !qtyKeluar || qtyKeluar <= 0 || !tujuanRak"
+          (click)="submitBarangKeluar()">
 
-          [(ngModel)]="tujuanRak">
+          Keluarkan Barang
 
-        </ion-input>
+        </ion-button>
 
-      </ion-item>
+      </ion-card-content>
 
-      <!-- CATATAN -->
+    </ion-card>
 
-      <ion-item>
-
-        <ion-textarea
-
-          label="Catatan"
-
-          labelPlacement="stacked"
-
-          rows="4"
-
-          [(ngModel)]="catatan">
-
-        </ion-textarea>
-
-      </ion-item>
-
-      <!-- BUTTON -->
-
-      <ion-button
-
-        expand="block"
-
-        color="danger"
-
-        class="ion-margin-top"
-
-        (click)="submitBarangKeluar()">
-
-        KELUARKAN BARANG
-
-      </ion-button>
-
-    </ion-card-content>
-
-  </ion-card>
+  </div>
 
 </ion-content>

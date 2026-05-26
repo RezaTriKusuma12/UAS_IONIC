@@ -1,44 +1,80 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-wrapper">
 
-  <!-- LOGO -->
-  <div class="logo-container">
-    <img src="assets/logista.jpeg" />
+    <div class="logo-container">
+      <img src="assets/logista.jpeg" alt="Logista Logo" />
+    </div>
+
+    <div class="container">
+      <ion-card class="register-card">
+
+        <ion-card-header>
+          <ion-card-title>Daftar</ion-card-title>
+          <ion-card-subtitle>Buat akun baru untuk masuk ke aplikasi</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <ion-input
+            class="form-input"
+            label="Email"
+            labelPlacement="floating"
+            type="email"
+            fill="outline"
+            placeholder="Masukkan email"
+            autocomplete="email"
+            inputmode="email"
+            [(ngModel)]="email">
+          </ion-input>
+
+          <ion-input
+            class="form-input"
+            label="Nama Lengkap"
+            labelPlacement="floating"
+            fill="outline"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+            [(ngModel)]="name">
+          </ion-input>
+
+          <ion-input
+            class="form-input"
+            label="Username"
+            labelPlacement="floating"
+            fill="outline"
+            placeholder="Masukkan username"
+            autocomplete="username"
+            [(ngModel)]="username">
+          </ion-input>
+
+          <ion-input
+            class="form-input"
+            label="Password"
+            labelPlacement="floating"
+            type="password"
+            fill="outline"
+            placeholder="Masukkan password"
+            autocomplete="new-password"
+            [(ngModel)]="password">
+          </ion-input>
+
+          <ion-button
+            expand="block"
+            class="register-btn"
+            [disabled]="!email || !name || !username || !password"
+            (click)="register()">
+            Daftar
+          </ion-button>
+
+        </ion-card-content>
+
+      </ion-card>
+    </div>
+
+    <div class="register">
+      <span>Sudah punya akun?</span>
+      <b (click)="goToLogin()">Login</b>
+    </div>
+
   </div>
-
-  <!-- REGISTER CARD -->
-  <div class="container">
-    <ion-card>
-
-      <ion-card-header>
-        <ion-card-title>Daftar</ion-card-title>
-        <ion-card-subtitle>Buat akun baru</ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-card-content>
-
-        <ion-input label="Email" type="email" fill="outline"
-          [(ngModel)]="email" placeholder="Enter email"></ion-input>
-
-        <ion-input label="Nama Lengkap" fill="outline"
-          [(ngModel)]="name" placeholder="Enter full name"></ion-input>
-
-        <ion-input label="Username" fill="outline"
-          [(ngModel)]="username" placeholder="Enter username"></ion-input>
-
-        <ion-input type="password" label="Password" fill="outline"
-          [(ngModel)]="password" placeholder="Enter password"></ion-input>
-
-        <ion-button expand="block" (click)="register()">Daftar</ion-button>
-
-      </ion-card-content>
-
-    </ion-card>
-  </div>
-
-  <!-- LOGIN -->
-<div class="register">
-  <span>Sudah punya akun?</span>
-  <b (click)="goToLogin()">Login</b>
-</div>
-
 </ion-content>

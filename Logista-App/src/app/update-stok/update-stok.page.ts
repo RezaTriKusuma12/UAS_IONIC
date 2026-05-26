@@ -7,12 +7,9 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { HttpClient }
-from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import {
-  NavController
-} from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 import Chart from 'chart.js/auto';
 
@@ -22,409 +19,230 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./update-stok.page.scss'],
   standalone: false
 })
-
-export class UpdateStokPage
-implements
-OnInit,
-AfterViewInit,
-OnDestroy {
-
-  // =====================================
-  // DASHBOARD DATA
-  // =====================================
+export class UpdateStokPage implements OnInit, AfterViewInit, OnDestroy {
 
   dashboard: any = {};
 
-  // =====================================
-  // REALTIME CLOCK
-  // =====================================
-
   currentTime: string = '';
-
   currentDate: string = '';
-
   clockInterval: any;
 
-  // =====================================
-  // FILTER
-  // =====================================
-
-  selectedPeriode =
-    'bulanan';
-
-  selectedBulan =
-    new Date().getMonth() + 1;
-
-  selectedTahun =
-    new Date().getFullYear();
-
-  selectedMinggu =
-    1;
-
-  // =====================================
-  // CHART
-  // =====================================
+  selectedPeriode = 'bulanan';
+  selectedBulan = new Date().getMonth() + 1;
+  selectedTahun = new Date().getFullYear();
+  selectedMinggu = 1;
 
   @ViewChild('lineChart')
-  lineChart!: ElementRef;
+  lineChart!: ElementRef<HTMLCanvasElement>;
 
   stockChart: any;
 
+  private apiUrl = 'http://localhost:8000/api';
+
   constructor(
-
     private http: HttpClient,
-
-    private navCtrl:
-    NavController
-
+    private navCtrl: NavController
   ) {}
-
-  // =====================================
-  // INIT
-  // =====================================
 
   ngOnInit() {}
 
-  // =====================================
-  // SAAT PAGE MASUK
-  // =====================================
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.loadStockChart();
+    }, 300);
+  }
 
   ionViewWillEnter() {
+    const dataUser = localStorage.getItem('user');
 
-    // =========================
-    // CEK LOGIN
-    // =========================
-
-    const dataUser =
-      localStorage.getItem('user');
-
-    // jika belum login
     if (!dataUser) {
-
-      this.navCtrl.navigateRoot(
-        '/login'
-      );
-
+      this.navCtrl.navigateRoot('/login');
       return;
-
     }
 
-    // =========================
-    // LOAD DASHBOARD
-    // =========================
-
     this.loadDashboard();
-
-    // =========================
-    // REALTIME CLOCK
-    // =========================
+    this.loadStockChart();
 
     this.updateClock();
 
-    this.clockInterval =
-      setInterval(() => {
+    if (this.clockInterval) {
+      clearInterval(this.clockInterval);
+    }
 
-        this.updateClock();
-
-      }, 1000);
-
+    this.clockInterval = setInterval(() => {
+      this.updateClock();
+    }, 1000);
   }
-
-  // =====================================
-  // AFTER VIEW INIT
-  // =====================================
-
-  ngAfterViewInit() {
-
-    this.loadStockChart();
-
-  }
-
-  // =====================================
-  // SAAT PAGE KELUAR
-  // =====================================
 
   ionViewWillLeave() {
-
-    // stop realtime clock
-    clearInterval(
-      this.clockInterval
-    );
-
+    if (this.clockInterval) {
+      clearInterval(this.clockInterval);
+    }
   }
-
-  // =====================================
-  // DESTROY COMPONENT
-  // =====================================
 
   ngOnDestroy() {
-
-    // destroy chart
     if (this.stockChart) {
-
       this.stockChart.destroy();
-
     }
 
-    // clear interval
-    clearInterval(
-      this.clockInterval
-    );
-
+    if (this.clockInterval) {
+      clearInterval(this.clockInterval);
+    }
   }
-
-  // =====================================
-  // LOAD DASHBOARD
-  // =====================================
 
   loadDashboard() {
-
-    this.http.get(
-      'http://localhost:3000/api/dashboard-stock'
-    )
-
-    .subscribe({
-
+    this.http.get(`${this.apiUrl}/dashboard-stock`).subscribe({
       next: (res: any) => {
-
         console.log(res);
-
-        this.dashboard =
-          res.data;
-
+        this.dashboard = res.data || {};
       },
-
       error: (err) => {
-
         console.log(err);
-
       }
-
     });
-
   }
-
-  // =====================================
-  // LOAD STOCK CHART
-  // =====================================
 
   loadStockChart() {
-
-    // destroy chart lama
-
-    if (this.stockChart) {
-
-      this.stockChart.destroy();
-
+    if (!this.lineChart) {
+      return;
     }
 
-    this.http.get(
+    const url =
+      `${this.apiUrl}/stock-line-chart?bulan=${this.selectedBulan}&minggu=${this.selectedMinggu}&tahun=${this.selectedTahun}`;
 
-`http://localhost:3000/api/stock-line-chart?bulan=${this.selectedBulan}&minggu=${this.selectedMinggu}&tahun=${this.selectedTahun}`
-
-    )
-
-    .subscribe({
-
+    this.http.get(url).subscribe({
       next: (res: any) => {
+        const data = res.data || [];
 
-        const data =
-          res.data;
-
-        // =====================
-        // LABEL
-        // =====================
-
-        const labels =
-          data.map((x: any) => {
-
-            return new Date(
-              x.tanggal
-            )
-
-            .toLocaleDateString(
-              'id-ID',
-              {
-
-                day: 'numeric',
-
-                month: 'short'
-
-              }
-            );
-
+        const labels = data.map((x: any) => {
+          return new Date(x.tanggal).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short'
           });
+        });
 
-        // =====================
-        // STOK
-        // =====================
+        const stok = data.map((x: any) => x.total_stok);
 
-        const stok =
-          data.map((x: any) =>
-
-            x.total_stok
-
-          );
-
-        // =====================
-        // CREATE CHART
-        // =====================
-
-        this.createStockChart(
-
-          labels,
-
-          stok
-
-        );
-
+        this.createStockChart(labels, stok);
       },
-
       error: (err) => {
-
         console.log(err);
-
       }
-
     });
-
   }
 
-  // =====================================
-  // CREATE CHART
-  // =====================================
+  createStockChart(labels: any[], stok: any[]) {
+    if (this.stockChart) {
+      this.stockChart.destroy();
+    }
 
-  createStockChart(
+    const darkMode = this.isDarkMode();
 
-    labels: any,
+    const textColor = darkMode ? '#f8fafc' : '#0f172a';
+    const gridColor = darkMode
+      ? 'rgba(148, 163, 184, 0.22)'
+      : 'rgba(100, 116, 139, 0.18)';
 
-    stok: any
-
-  ) {
-
-    this.stockChart =
-      new Chart(
-
-      this.lineChart
-      .nativeElement,
-
+    this.stockChart = new Chart(
+      this.lineChart.nativeElement,
       {
-
         type: 'line',
-
         data: {
-
           labels: labels,
-
           datasets: [
-
             {
-
-              label:
-              'Perubahan Total Stok Gudang',
-
+              label: 'Perubahan Total Stok Gudang',
               data: stok,
-
               borderWidth: 3,
-
               tension: 0.4,
-
               fill: true,
-
               pointRadius: 5,
-
-              backgroundColor:
-              'rgba(76,175,80,0.2)',
-
-              borderColor:
-              '#4CAF50'
-
+              pointHoverRadius: 7,
+              backgroundColor: 'rgba(43, 177, 187, 0.18)',
+              borderColor: '#2bb1bb',
+              pointBackgroundColor: '#2bb1bb',
+              pointBorderColor: '#ffffff'
             }
-
           ]
-
         },
-
         options: {
-
           responsive: true,
-
           maintainAspectRatio: false,
-
           plugins: {
-
             legend: {
-
-              display: true
-
+              display: true,
+              labels: {
+                color: textColor,
+                font: {
+                  size: 12,
+                  weight: 'bold'
+                }
+              }
+            },
+            tooltip: {
+              backgroundColor: darkMode ? '#111827' : '#ffffff',
+              titleColor: textColor,
+              bodyColor: textColor,
+              borderColor: darkMode ? '#334155' : '#e2e8f0',
+              borderWidth: 1,
+              padding: 12,
+              displayColors: false
             }
-
           },
-
           scales: {
-
+            x: {
+              ticks: {
+                color: textColor,
+                font: {
+                  size: 11
+                }
+              },
+              grid: {
+                color: gridColor
+              }
+            },
             y: {
-
-              beginAtZero: true
-
+              beginAtZero: true,
+              ticks: {
+                color: textColor,
+                font: {
+                  size: 11
+                }
+              },
+              grid: {
+                color: gridColor
+              }
             }
-
           }
-
         }
-
       }
-
     );
-
   }
-
-  // =====================================
-  // FILTER CHART
-  // =====================================
 
   filterChart() {
-
     this.loadStockChart();
-
   }
 
-  // =====================================
-  // REALTIME CLOCK
-  // =====================================
-
   updateClock() {
+    const now = new Date();
 
-    const now =
-      new Date();
+    this.currentTime = now.toLocaleTimeString('id-ID');
 
-    // jam realtime
+    this.currentDate = now.toLocaleDateString('id-ID', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
 
-    this.currentTime =
+  isDarkMode(): boolean {
+    const bodyDark = document.body.classList.contains('dark');
 
-      now.toLocaleTimeString(
-        'id-ID'
-      );
+    const systemDark = window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // tanggal realtime
-
-    this.currentDate =
-
-      now.toLocaleDateString(
-        'id-ID',
-        {
-
-          weekday: 'long',
-
-          year: 'numeric',
-
-          month: 'long',
-
-          day: 'numeric'
-
-        }
-      );
-
+    return bodyDark || systemDark;
   }
 
 }

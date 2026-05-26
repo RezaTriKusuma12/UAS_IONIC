@@ -1,20 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { NavController } from '@ionic/angular';
-
 import { register } from 'swiper/element/bundle';
+import { Capacitor } from '@capacitor/core';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
-import { PushNotifications }
-from '@capacitor/push-notifications';
-
-import { LocalNotifications }
-from '@capacitor/local-notifications';
-
-import { NotificationService }
-from '../services/notification';
-
-import { BarangService }
-from '../services/daftar-barang';
+import { NotificationService } from '../services/notification';
+import { BarangService } from '../services/daftar-barang';
 
 register();
 
@@ -25,488 +17,310 @@ register();
   standalone: false,
 })
 
-export class HomePage
-implements OnInit {
+export class HomePage implements OnInit {
+  user: any = null;
 
-  // =====================================
-  // USER
-  // =====================================
-
-  user: any;
-
-  // =====================================
-  // NOTIFICATION
-  // =====================================
-
-  notificationCount: number = 0;
-
-  showNotification: boolean = false;
-
+  notificationCount = 0;
+  showNotification = false;
   notifications: any[] = [];
 
-  // =====================================
-  // SEARCH
-  // =====================================
-
   allBarang: any[] = [];
-
   searchResults: any[] = [];
 
-  // =====================================
-  // PROFILE POPUP
-  // =====================================
+  showProfile = false;
 
-  showProfile: boolean = false;
+  private notifInterval: any = null;
+  private pushInitialized = false;
 
   constructor(
-
     private navCtrl: NavController,
-
-    private notificationService:
-    NotificationService,
-
-    private barangService:
-    BarangService
-
+    private notificationService: NotificationService,
+    private barangService: BarangService
   ) {}
-
-  // =====================================
-  // INIT
-  // =====================================
 
   ngOnInit() {}
 
-  // =====================================
-  // REFRESH SAAT MASUK PAGE
-  // =====================================
-
   ionViewWillEnter() {
-
-    // =========================
-    // CEK LOGIN
-    // =========================
-
-    const dataUser =
-      localStorage.getItem('user');
-
-    // jika belum login
-    if (!dataUser) {
-
-      this.navCtrl.navigateRoot(
-        '/login'
-      );
-
+    if (!this.loadUserSession()) {
       return;
-
     }
-
-    // simpan user
-    this.user =
-      JSON.parse(dataUser);
-
-    // =========================
-    // FIREBASE NOTIFICATION
-    // =========================
 
     this.initPushNotification();
-
-    // =========================
-    // LOAD DATA
-    // =========================
-
-    this.loadNotificationCount();
-
-    this.loadBarang();
-
+    this.loadInitialData();
+    this.startNotificationPolling();
   }
-
-  // =====================================
-  // CLEANUP SAAT KELUAR PAGE
-  // =====================================
 
   ionViewWillLeave() {
-
     this.showNotification = false;
-
     this.showProfile = false;
-
+    this.stopNotificationPolling();
   }
 
-  // =====================================
-  // FIREBASE PUSH NOTIFICATION
-  // =====================================
+  private loadUserSession(): boolean {
+    const dataUser = localStorage.getItem('user');
+
+    if (!dataUser) {
+      this.navCtrl.navigateRoot('/login');
+      return false;
+    }
+
+    try {
+      this.user = JSON.parse(dataUser);
+      return true;
+    } catch (error) {
+      localStorage.clear();
+      this.navCtrl.navigateRoot('/login');
+      return false;
+    }
+  }
+
+  private loadInitialData() {
+    this.loadNotificationCount();
+    this.loadNotifications();
+    this.loadBarang();
+  }
+
+  private startNotificationPolling() {
+    this.stopNotificationPolling();
+
+    this.notifInterval = setInterval(() => {
+      this.loadNotificationCount();
+
+      if (this.showNotification) {
+        this.loadNotifications();
+      }
+    }, 5000);
+  }
+
+  private stopNotificationPolling() {
+    if (this.notifInterval) {
+      clearInterval(this.notifInterval);
+      this.notifInterval = null;
+    }
+  }
 
   async initPushNotification() {
+    if (this.pushInitialized) {
+      return;
+    }
 
-  // =========================
-  // REQUEST LOCAL NOTIF
-  // =========================
+    this.pushInitialized = true;
 
-  await LocalNotifications
-  .requestPermissions();
+    if (!Capacitor.isNativePlatform()) {
+      console.log('Push notification dilewati karena bukan Android/iOS.');
+      return;
+    }
 
-  // =========================
-  // REQUEST PUSH NOTIF
-  // =========================
+    const localPermission =
+      await LocalNotifications.requestPermissions();
 
-  const permission =
+    console.log(
+      'Local notification permission:',
+      localPermission
+    );
 
-    await PushNotifications
-    .requestPermissions();
+    let pushPermission =
+      await PushNotifications.checkPermissions();
 
-  // =========================
-  // JIKA DIIZINKAN
-  // =========================
+    if (pushPermission.receive !== 'granted') {
+      pushPermission =
+        await PushNotifications.requestPermissions();
+    }
 
-  if (
-    permission.receive ===
-    'granted'
-  ) {
+    if (pushPermission.receive !== 'granted') {
+      console.log('Izin push notification ditolak user.');
+      return;
+    }
 
-    // register firebase
-    await PushNotifications
-    .register();
+    await PushNotifications.register();
 
+    PushNotifications.addListener(
+  'registration',
+  (token) => {
+    console.log('FCM TOKEN:', token.value);
+
+    const userData = localStorage.getItem('user');
+    const user = userData ? JSON.parse(userData) : null;
+
+    this.notificationService.saveFcmToken({
+      token: token.value,
+      user_id: user?.id || null,
+      platform: Capacitor.getPlatform()
+    }).subscribe({
+      next: (res) => {
+        console.log('FCM token berhasil disimpan:', res);
+      },
+      error: (err) => {
+        console.log('Gagal simpan FCM token:', err);
+      }
+    });
   }
+);
 
-  // =================================
-  // TOKEN DEVICE
-  // =================================
+    PushNotifications.addListener(
+      'registrationError',
+      (error) => {
+        console.log('Push registration error:', error);
+      }
+    );
 
-  PushNotifications
-  .addListener(
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      async (notification) => {
+        console.log('NOTIF MASUK:', notification);
 
-    'registration',
+        this.loadNotificationCount();
+        this.loadNotifications();
 
-    (token) => {
+        await LocalNotifications.schedule({
+          notifications: [
+            {
+              title: notification.title || 'Logista',
+              body: notification.body || 'Ada notifikasi baru',
+              id: Math.floor(Date.now() / 1000),
+              schedule: {
+                at: new Date(Date.now() + 1000),
+              },
+            },
+          ],
+        });
+      }
+    );
 
-      console.log(
-        'FCM TOKEN:',
-        token.value
-      );
-
-    }
-
-  );
-
-  // =================================
-  // NOTIF DITERIMA
-  // =================================
-
-  PushNotifications
-  .addListener(
-
-    'pushNotificationReceived',
-
-    async (notification) => {
-
-      console.log(
-        'NOTIF MASUK:',
-        notification
-      );
-
-      // tampil notif lokal
-      await LocalNotifications
-      .schedule({
-
-        notifications: [
-
-          {
-
-            title:
-              notification.title ||
-
-              'Logista',
-
-            body:
-              notification.body ||
-
-              'Ada notifikasi baru',
-
-            id:
-              new Date().getTime(),
-
-            schedule: {
-
-              at: new Date(
-                Date.now() + 1000
-              )
-
-            }
-
-          }
-
-        ]
-
-      });
-
-    }
-
-  );
-
-  // =================================
-  // NOTIF DIKLIK
-  // =================================
-
-  PushNotifications
-  .addListener(
-
-    'pushNotificationActionPerformed',
-
-    (notification) => {
-
-      console.log(
-        'NOTIF DIKLIK:',
-        notification
-      );
-
-      this.navCtrl
-      .navigateForward(
-        '/barang-masuk'
-      );
-
-    }
-
-  );
-
-}
-
-  // =====================================
-  // LOAD BARANG
-  // =====================================
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      () => {
+        this.navCtrl.navigateForward('/barang-masuk');
+      }
+    );
+  }
 
   loadBarang() {
-
-    this.barangService
-    .getBarang()
-
-    .subscribe({
-
+    this.barangService.getBarang().subscribe({
       next: (res: any) => {
-
-        this.allBarang =
-          res.data;
-
+        this.allBarang = res?.data || [];
       },
-
       error: (err) => {
-
-        console.log(err);
-
-      }
-
+        console.log('Gagal load barang:', err);
+      },
     });
-
   }
 
-  // =====================================
-  // SEARCH BARANG
-  // =====================================
-
   filterBarang(event: any) {
-
     const keyword =
-      event.target.value
-      ?.toLowerCase();
+      event?.target?.value?.toLowerCase()?.trim();
 
-    // kosong
     if (!keyword) {
-
       this.searchResults = [];
-
       return;
-
     }
 
     this.searchResults =
       this.allBarang.filter((item: any) => {
+        const namaBarang =
+          item?.nama_barang?.toLowerCase() || '';
+
+        const kodeBarang =
+          item?.kode_barang?.toLowerCase() || '';
 
         return (
-
-          item.nama_barang
-          .toLowerCase()
-          .includes(keyword)
-
-          ||
-
-          item.kode_barang
-          .toLowerCase()
-          .includes(keyword)
-
+          namaBarang.includes(keyword) ||
+          kodeBarang.includes(keyword)
         );
-
       });
-
   }
-
-  // =====================================
-  // LOAD NOTIFICATION COUNT
-  // =====================================
 
   loadNotificationCount() {
-
     this.notificationService
-    .getNotificationCount()
-
-    .subscribe({
-
-      next: (res: any) => {
-
-        this.notificationCount =
-          res.total;
-
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-      }
-
-    });
-
+      .getNotificationCount()
+      .subscribe({
+        next: (res: any) => {
+          this.notificationCount = res?.total || 0;
+        },
+        error: (err) => {
+          console.log('Gagal load notification count:', err);
+        },
+      });
   }
 
-  // =====================================
-  // TOGGLE NOTIFICATION
-  // =====================================
+  loadNotifications() {
+    this.notificationService
+      .getNotifications()
+      .subscribe({
+        next: (res: any) => {
+          this.notifications = res?.data || [];
+        },
+        error: (err) => {
+          console.log('Gagal load notifications:', err);
+        },
+      });
+  }
 
   toggleNotification() {
-
     this.showNotification =
       !this.showNotification;
 
     if (this.showNotification) {
-
       this.loadNotifications();
-
+      this.loadNotificationCount();
     }
-
   }
-
-  // =====================================
-  // LOAD NOTIFICATIONS
-  // =====================================
-
-  loadNotifications() {
-
-    this.notificationService
-    .getNotifications()
-
-    .subscribe({
-
-      next: (res: any) => {
-
-        this.notifications =
-          res.data;
-
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-      }
-
-    });
-
-  }
-
-  // =====================================
-  // OPEN BARANG MASUK
-  // =====================================
 
   openBarangMasuk() {
-
     this.showNotification = false;
 
     this.navCtrl.navigateForward(
       '/barang-masuk'
     );
-
   }
 
-  // =====================================
-  // LOGOUT
-  // =====================================
-
   logout() {
-
-    // hapus session
     localStorage.clear();
 
-    // reset navigation
     this.navCtrl.navigateRoot(
       '/login'
     );
-
   }
 
-  // =====================================
-  // NAVIGATION
-  // =====================================
-
   goToBarang() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/daftar-barang'
     );
-
   }
 
   goToStok() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/stok-barang'
     );
-
   }
 
   goToBarangMasuk() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/barang-masuk'
     );
-
   }
 
   goTomutasiBarang() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/mutasi-barang'
     );
-
   }
 
   goToHistori() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/histori'
     );
-
   }
 
   goToUpdateStok() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/update-stok'
     );
-
   }
 
   goToBarangKeluar() {
-
-    this.navCtrl
-    .navigateForward(
+    this.navCtrl.navigateForward(
       '/barang-keluar'
     );
-
   }
-
 }
