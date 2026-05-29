@@ -31,7 +31,7 @@ export class BarangKeluarPage {
 
   qtyKeluar: number = 0;
 
-  tujuanRak: string = '';
+  tujuan: string = '';
 
   catatan: string = '';
 
@@ -145,8 +145,8 @@ export class BarangKeluarPage {
       qty_keluar:
       Number(this.qtyKeluar),
 
-      tujuan_rak:
-      this.tujuanRak,
+      tujuan:
+      this.tujuan,
 
       catatan:
       this.catatan
@@ -177,7 +177,7 @@ export class BarangKeluarPage {
 
         this.qtyKeluar = 0;
 
-        this.tujuanRak = '';
+        this.tujuan = '';
 
         this.catatan = '';
 

@@ -123,7 +123,7 @@
             label="Tujuan"
             labelPlacement="stacked"
             placeholder="Contoh: Rak Display / Customer / Cabang"
-            [(ngModel)]="tujuanRak">
+            [(ngModel)]="tujuan">
           </ion-input>
 
         </ion-item>
@@ -148,7 +148,7 @@
         <ion-button
           expand="block"
           class="submit-button"
-          [disabled]="!barang_id || !qtyKeluar || qtyKeluar <= 0 || !tujuanRak"
+          [disabled]="!barang_id || !qtyKeluar || qtyKeluar <= 0 || !tujuan"
           (click)="submitBarangKeluar()">
 
           Keluarkan Barang
