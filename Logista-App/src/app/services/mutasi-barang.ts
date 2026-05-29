@@ -10,7 +10,7 @@ from '@angular/common/http';
 export class MutasiBarangService {
 
   apiUrl =
-    'http://localhost:8000/api';
+    'https://luminous.my.id/api';
 
   constructor(private http: HttpClient ) {}
 

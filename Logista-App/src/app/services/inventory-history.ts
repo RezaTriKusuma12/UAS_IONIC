@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class HistoryService {
 
-  apiUrl = 'http://localhost:8000/api';
+  apiUrl = 'https://luminous.my.id/api';
 
   constructor(
     private http: HttpClient

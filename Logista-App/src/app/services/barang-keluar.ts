@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class BarangKeluarService {
 
-  apiUrl = 'http://localhost:8000/api';
+  apiUrl = 'https://luminous.my.id/api';
 
   constructor(
     private http: HttpClient

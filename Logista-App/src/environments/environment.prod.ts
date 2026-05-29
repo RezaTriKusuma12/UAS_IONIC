@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://domain-anda.com/api'  // ← Ganti dengan domain asli nanti
+  apiUrl: 'https://luminous.my.id/api'  // ← Ganti dengan domain asli nanti
 };

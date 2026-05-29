@@ -37,7 +37,7 @@ export class UpdateStokPage implements OnInit, AfterViewInit, OnDestroy {
 
   stockChart: any;
 
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'https://luminous.my.id/api';
 
   constructor(
     private http: HttpClient,

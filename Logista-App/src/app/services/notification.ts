@@ -18,10 +18,10 @@ export class NotificationService {
   // =====================================
 
  // Saat ionic serve di browser lokal
-  private localApiUrl = 'http://localhost:8000/api';
+  private localApiUrl = 'https://luminous.my.id/api';
 
   // Saat sudah hosting cPanel
-  private productionApiUrl = 'https://domainkamu.com/api';
+  private productionApiUrl = 'https://luminous.my.id/api';
 
   apiUrl = Capacitor.isNativePlatform()
     ? this.productionApiUrl
