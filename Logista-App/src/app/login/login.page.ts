@@ -1,20 +1,17 @@
 import {
   Component,
-  OnInit,
-  OnDestroy
+  OnInit
 } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import {
-  Platform
-} from '@ionic/angular';
-
-import { App }
-from '@capacitor/app';
-
 import { AuthService }
 from '../services/auth';
+
+import {
+  eyeOutline,
+  eyeOffOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
@@ -24,33 +21,33 @@ from '../services/auth';
 })
 
 export class LoginPage
-implements OnInit, OnDestroy {
+implements OnInit {
 
   email: string = '';
 
   password: string = '';
 
-  backButtonSubscription: any;
+  showPassword: boolean = false;
+
+  eyeIcon = eyeOutline;
+
+  eyeOffIcon = eyeOffOutline;
 
   constructor(
 
     private router: Router,
 
     private authService:
-    AuthService,
-
-    private platform: Platform
+    AuthService
 
   ) {}
 
-  // =====================================
-  // INIT
-  // =====================================
-
   ngOnInit() {
 
-    // jika sudah login
-    // langsung ke home
+    localStorage.setItem(
+      'welcomeShown',
+      'true'
+    );
 
     const user =
       localStorage.getItem('user');
@@ -58,43 +55,24 @@ implements OnInit, OnDestroy {
     if (user) {
 
       this.router.navigate(
-        ['/home']
+        ['/home'],
+        {
+          replaceUrl: true
+        }
       );
 
     }
-
-    // =====================================
-    // BACK BUTTON ANDROID
-    // =====================================
-
-    this.backButtonSubscription =
-
-      this.platform.backButton
-      .subscribeWithPriority(
-        9999,
-        () => {
-
-          App.exitApp();
-
-        }
-      );
 
   }
 
   // =====================================
-  // DESTROY
+  // SHOW / HIDE PASSWORD
   // =====================================
 
-  ngOnDestroy() {
+  togglePassword() {
 
-    if (
-      this.backButtonSubscription
-    ) {
-
-      this.backButtonSubscription
-      .unsubscribe();
-
-    }
+    this.showPassword =
+      !this.showPassword;
 
   }
 
@@ -133,7 +111,10 @@ implements OnInit, OnDestroy {
 
         alert(res.message);
 
-        // simpan user
+        localStorage.setItem(
+          'welcomeShown',
+          'true'
+        );
 
         localStorage.setItem(
           'user',
@@ -142,10 +123,11 @@ implements OnInit, OnDestroy {
           )
         );
 
-        // pindah home
-
         this.router.navigate(
-          ['/home']
+          ['/home'],
+          {
+            replaceUrl: true
+          }
         );
 
       },
@@ -167,10 +149,6 @@ implements OnInit, OnDestroy {
     });
 
   }
-
-  // =====================================
-  // NAVIGATION
-  // =====================================
 
   goToForgotPassword() {
 

@@ -1,95 +1,180 @@
-<ion-content fullscreen>
+<ion-content class="welcome-content" [fullscreen]="true">
 
-  <div class="welcome-container">
+  <div class="welcome-wrapper">
 
     <!-- LOGO -->
-    <img
-      src="assets/logista.jpeg"
-      class="logo"
-    />
 
-    <!-- TITLE -->
+    <div class="logo-box">
+
+      <img
+        src="assets/logista.jpeg"
+        alt="Logo Logista"
+        class="logo">
+
+    </div>
+
+    <!-- JUDUL -->
+
     <h1>
-      Welcome to Logista
+      Selamat Datang di Logista
     </h1>
 
-    <!-- DESC -->
-    <p class="desc">
-
-      Manage warehouse stock,
-      goods movement,
-      and inventory monitoring
-      more efficiently.
-
+    <p class="description">
+      Logista adalah aplikasi manajemen persediaan barang
+      yang membantu pengguna mengelola stok, pemesanan,
+      barang masuk, barang keluar, dan riwayat transaksi
+      secara lebih mudah.
     </p>
 
-    <!-- FEATURES -->
-    <div class="feature-box">
+    <!-- FITUR UTAMA -->
+
+    <div class="section-card">
+
+      <h2>
+        Fitur Utama
+      </h2>
 
       <div class="feature-item">
-
-        ✅ Real-time Inventory
-
+        <span>📦</span>
+        <p>Melihat daftar barang dan jumlah stok.</p>
       </div>
 
       <div class="feature-item">
-
-        ✅ Stock Monitoring
-
+        <span>⬇️</span>
+        <p>Mengelola data barang masuk dari pemesanan.</p>
       </div>
 
       <div class="feature-item">
-
-        ✅ Goods In & Out
-
+        <span>⬆️</span>
+        <p>Mencatat barang keluar dari gudang atau rak.</p>
       </div>
 
       <div class="feature-item">
+        <span>🔔</span>
+        <p>Menerima notifikasi aktivitas barang.</p>
+      </div>
 
-        ✅ Smart Notifications
+    </div>
+
+    <!-- TATA CARA PENGGUNAAN -->
+
+    <div class="section-card">
+
+      <h2>
+        Tata Cara Penggunaan
+      </h2>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          1
+        </div>
+
+        <p>
+          Login menggunakan akun yang sudah terdaftar.
+        </p>
+
+      </div>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          2
+        </div>
+
+        <p>
+          Buka menu Daftar Barang untuk melihat data stok.
+        </p>
+
+      </div>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          3
+        </div>
+
+        <p>
+          Gunakan menu Barang Masuk untuk melihat pemesanan
+          dan melakukan verifikasi barang.
+        </p>
+
+      </div>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          4
+        </div>
+
+        <p>
+          Gunakan menu Barang Keluar untuk mencatat barang
+          yang keluar dari stok.
+        </p>
+
+      </div>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          5
+        </div>
+
+        <p>
+          Cek menu History untuk melihat riwayat aktivitas
+          barang.
+        </p>
+
+      </div>
+
+      <div class="step-item">
+
+        <div class="step-number">
+          6
+        </div>
+
+        <p>
+          Perhatikan notifikasi untuk mengetahui aktivitas
+          terbaru pada aplikasi.
+        </p>
 
       </div>
 
     </div>
 
-    <!-- AGREEMENT -->
-    <div class="agree-box">
+    <!-- PRIVACY POLICY -->
+
+    <ion-item lines="none" class="privacy-box">
 
       <ion-checkbox
-        [(ngModel)]="isAgree"
-      >
+        slot="start"
+        [(ngModel)]="isAgree">
       </ion-checkbox>
 
-      <span>
+      <ion-label>
+        Saya menyetujui
+        <span
+          class="privacy-link"
+          (click)="bukaPrivacyPolicy()">
+          Kebijakan Privasi
+        </span>
+      </ion-label>
 
-        I agree to the
-        Terms & Privacy Policy
-
-      </span>
-
-    </div>
+    </ion-item>
 
     <!-- BUTTON -->
+
     <ion-button
-
       expand="block"
+      shape="round"
+      class="start-button"
+      [disabled]="!isAgree"
+      (click)="mulai()">
 
-      class="start-btn"
-
-      (click)="startApp()"
-
-    >
-
-      Get Started
+      Mulai Menggunakan
 
     </ion-button>
 
   </div>
-
-  <p class="version">
-
-  Logista v1.0
-
-</p>
 
 </ion-content>

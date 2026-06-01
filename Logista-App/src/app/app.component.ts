@@ -1,11 +1,12 @@
-import { Component }
-from '@angular/core';
+import { Component } from '@angular/core';
 
-import { Router }
-from '@angular/router';
+import { Router } from '@angular/router';
 
-import { Platform }
-from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+
+import { Location } from '@angular/common';
+
+import { App } from '@capacitor/app';
 
 @Component({
 
@@ -27,7 +28,10 @@ export class AppComponent {
     Router,
 
     private platform:
-    Platform
+    Platform,
+
+    private location:
+    Location
 
   ) {
 
@@ -45,74 +49,67 @@ export class AppComponent {
     .then(() => {
 
       // =========================
-      // CEK WELCOME PAGE
+      // HANDLE BACK BUTTON ANDROID
       // =========================
 
-      const welcomeShown =
-
-        localStorage.getItem(
-          'welcomeShown'
-        );
+      this.handleBackButton();
 
       // =========================
-      // CEK LOGIN
+      // MASUK KE SPLASH
       // =========================
 
-      const user =
-
-        localStorage.getItem(
-          'user'
-        );
-
-      // =========================
-      // JIKA BELUM PERNAH
-      // MASUK APP
-      // =========================
-
-      if (!welcomeShown) {
-
-        this.router.navigate(
-          ['/welcome'],
-          {
-            replaceUrl: true
-          }
-        );
-
-        return;
-
-      }
-
-      // =========================
-      // JIKA SUDAH LOGIN
-      // =========================
-
-      if (user) {
-
-        this.router.navigate(
-          ['/splash'],
-          {
-            replaceUrl: true
-          }
-        );
-
-      }
-
-      // =========================
-      // JIKA BELUM LOGIN
-      // =========================
-
-      else {
-
-        this.router.navigate(
-          ['/splash'],
-          {
-            replaceUrl: true
-          }
-        );
-
-      }
+      this.router.navigate(
+        ['/splash'],
+        {
+          replaceUrl: true
+        }
+      );
 
     });
+
+  }
+
+  // =====================================
+  // BACK BUTTON ANDROID
+  // =====================================
+
+  handleBackButton() {
+
+    this.platform.backButton
+    .subscribeWithPriority(
+      9999,
+      () => {
+
+        const currentUrl =
+          this.router.url.split('?')[0];
+
+        // =========================
+        // JIKA DI HOME ATAU LOGIN
+        // KELUAR APLIKASI
+        // =========================
+
+        if (
+          currentUrl === '/home' ||
+          currentUrl === '/login'
+        ) {
+
+          App.exitApp();
+
+        }
+
+        // =========================
+        // JIKA DI HALAMAN LAIN
+        // KEMBALI KE HALAMAN SEBELUMNYA
+        // =========================
+
+        else {
+
+          this.location.back();
+
+        }
+
+      }
+    );
 
   }
 
@@ -122,7 +119,8 @@ export class AppComponent {
 
   logout() {
 
-    localStorage.clear();
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
 
     this.router.navigate(
       ['/login'],

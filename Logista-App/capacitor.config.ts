@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.logista',
+  appId: 'com.kelompok32.logista',
   appName: 'Logista',
   webDir: 'www',
 

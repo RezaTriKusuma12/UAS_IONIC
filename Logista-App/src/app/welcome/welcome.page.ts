@@ -1,8 +1,6 @@
-import { Component }
-from '@angular/core';
+import { Component } from '@angular/core';
 
-import { NavController }
-from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
 
@@ -12,7 +10,7 @@ from '@ionic/angular';
 
   styleUrls: ['./welcome.page.scss'],
 
-  standalone: false
+  standalone: false,
 
 })
 
@@ -21,34 +19,35 @@ export class WelcomePage {
   isAgree: boolean = false;
 
   constructor(
-
-    private navCtrl:
-    NavController
-
+    private router: Router
   ) {}
 
-  startApp() {
+  mulai() {
 
-    // wajib checklist
     if (!this.isAgree) {
-
-      alert(
-        'Silakan setujui Terms terlebih dahulu'
-      );
 
       return;
 
     }
 
-    // tandai sudah buka app
     localStorage.setItem(
       'welcomeShown',
       'true'
     );
 
-    // masuk login
-    this.navCtrl.navigateRoot(
-      '/login'
+    this.router.navigate(
+      ['/splash'],
+      {
+        replaceUrl: true
+      }
+    );
+
+  }
+
+  bukaPrivacyPolicy() {
+
+    this.router.navigate(
+      ['/privacy-policy']
     );
 
   }

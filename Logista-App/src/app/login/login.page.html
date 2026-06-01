@@ -1,4 +1,5 @@
 <ion-content [fullscreen]="true" class="login-content">
+
   <div class="login-wrapper">
 
     <div class="logo-container">
@@ -6,13 +7,18 @@
     </div>
 
     <div class="container">
+
       <ion-card class="login-card">
+
         <ion-card-header>
           <ion-card-title>Login</ion-card-title>
-          <ion-card-subtitle>Login untuk masuk ke aplikasi</ion-card-subtitle>
+          <ion-card-subtitle>
+            Login untuk masuk ke aplikasi
+          </ion-card-subtitle>
         </ion-card-header>
 
         <ion-card-content>
+
           <ion-input
             class="form-input"
             label="Email"
@@ -25,16 +31,32 @@
             [(ngModel)]="email">
           </ion-input>
 
-          <ion-input
-            class="form-input"
-            label="Password"
-            labelPlacement="floating"
-            type="password"
-            fill="outline"
-            placeholder="Masukkan password"
-            autocomplete="current-password"
-            [(ngModel)]="password">
-          </ion-input>
+          <div class="password-field">
+
+            <ion-input
+              class="form-input password-input"
+              label="Password"
+              labelPlacement="floating"
+              [type]="showPassword ? 'text' : 'password'"
+              fill="outline"
+              placeholder="Masukkan password"
+              autocomplete="current-password"
+              [(ngModel)]="password">
+            </ion-input>
+
+            <button
+              type="button"
+              class="eye-btn"
+              (click)="togglePassword()"
+              aria-label="Lihat password">
+
+              <ion-icon
+                [icon]="showPassword ? eyeOffIcon : eyeIcon">
+              </ion-icon>
+
+            </button>
+
+          </div>
 
           <ion-button
             expand="block"
@@ -45,20 +67,42 @@
           </ion-button>
 
           <div class="action-links">
-            <button type="button" class="text-link" (click)="goToForgotPassword()">
+
+            <button
+              type="button"
+              class="text-link"
+              (click)="goToForgotPassword()">
               Lupa Password?
             </button>
+
           </div>
+
         </ion-card-content>
+
       </ion-card>
+
     </div>
 
     <div class="register">
+
       <span>Belum punya akun?</span>
-      <button type="button" class="register-link" (click)="goToRegister()">
+
+      <button
+        type="button"
+        class="register-link"
+        (click)="goToRegister()">
         Daftar
       </button>
+
     </div>
 
+    <p class="privacy-login">
+      Dengan menggunakan aplikasi ini, Anda menyetujui
+      <a routerLink="/privacy-policy">
+        Kebijakan Privasi
+      </a>
+    </p>
+
   </div>
+
 </ion-content>

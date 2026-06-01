@@ -1,4 +1,4 @@
-package com.logista;
+package com.kelompok32.logista;
 
 import com.getcapacitor.BridgeActivity;
 
