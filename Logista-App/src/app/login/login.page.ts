@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { AuthService }
-from '../services/auth';
+import { AuthService } from '../services/auth';
 
 import {
   eyeOutline,
@@ -20,26 +14,19 @@ import {
   standalone: false,
 })
 
-export class LoginPage
-implements OnInit {
+export class LoginPage implements OnInit {
 
   email: string = '';
-
   password: string = '';
 
   showPassword: boolean = false;
 
   eyeIcon = eyeOutline;
-
   eyeOffIcon = eyeOffOutline;
 
   constructor(
-
     private router: Router,
-
-    private authService:
-    AuthService
-
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -109,7 +96,25 @@ implements OnInit {
 
         console.log(res);
 
-        alert(res.message);
+        if (res.success === false) {
+
+          alert(
+            res.message || 'Login gagal'
+          );
+
+          return;
+
+        }
+
+        if (!res.user) {
+
+          alert(
+            res.message || 'Data user tidak ditemukan'
+          );
+
+          return;
+
+        }
 
         localStorage.setItem(
           'welcomeShown',
@@ -121,6 +126,19 @@ implements OnInit {
           JSON.stringify(
             res.user
           )
+        );
+
+        if (res.user?.email) {
+
+          localStorage.setItem(
+            'user_email',
+            res.user.email
+          );
+
+        }
+
+        alert(
+          res.message || 'Login berhasil'
         );
 
         this.router.navigate(
@@ -137,11 +155,8 @@ implements OnInit {
         console.log(err);
 
         alert(
-
           err.error?.message ||
-
           'Login gagal'
-
         );
 
       }

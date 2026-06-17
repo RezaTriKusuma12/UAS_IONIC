@@ -7,6 +7,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 
 import { NotificationService } from '../services/notification';
 import { BarangService } from '../services/daftar-barang';
+import { AuthService } from '../services/auth';
 
 register();
 
@@ -32,10 +33,14 @@ export class HomePage implements OnInit {
   private notifInterval: any = null;
   private pushInitialized = false;
 
+  private activityInterval: any = null;
+  private statusCheckInterval: any = null;
+
   constructor(
     private navCtrl: NavController,
     private notificationService: NotificationService,
-    private barangService: BarangService
+    private barangService: BarangService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {}
@@ -45,6 +50,12 @@ export class HomePage implements OnInit {
       return;
     }
 
+    this.updateOperatorActivity();
+    this.checkAccountStatus();
+
+    this.startActivityInterval();
+    this.startStatusCheckInterval();
+
     this.initPushNotification();
     this.loadInitialData();
     this.startNotificationPolling();
@@ -53,7 +64,10 @@ export class HomePage implements OnInit {
   ionViewWillLeave() {
     this.showNotification = false;
     this.showProfile = false;
+
     this.stopNotificationPolling();
+    this.stopActivityInterval();
+    this.stopStatusCheckInterval();
   }
 
   private loadUserSession(): boolean {
@@ -66,11 +80,99 @@ export class HomePage implements OnInit {
 
     try {
       this.user = JSON.parse(dataUser);
+
+      if (this.user?.email) {
+        localStorage.setItem('user_email', this.user.email);
+      }
+
       return true;
     } catch (error) {
       localStorage.clear();
       this.navCtrl.navigateRoot('/login');
       return false;
+    }
+  }
+
+  private checkAccountStatus() {
+    const email = localStorage.getItem('user_email');
+
+    if (!email) {
+      return;
+    }
+
+    this.authService.checkStatus(email).subscribe({
+      next: (res: any) => {
+        console.log('Account status check:', res);
+
+        if (!res.is_active) {
+          alert('❌ Akun Anda telah diblokir oleh admin. Anda akan logout.');
+
+          localStorage.clear();
+          this.navCtrl.navigateRoot('/login');
+        }
+      },
+      error: (err: any) => {
+        console.log('Status check error:', err);
+
+        if (err.status === 403 || err.status === 401) {
+          localStorage.clear();
+          this.navCtrl.navigateRoot('/login');
+        }
+      }
+    });
+  }
+
+  private startStatusCheckInterval() {
+    this.stopStatusCheckInterval();
+
+    this.statusCheckInterval = setInterval(() => {
+      this.checkAccountStatus();
+    }, 10000);
+  }
+
+  private stopStatusCheckInterval() {
+    if (this.statusCheckInterval) {
+      clearInterval(this.statusCheckInterval);
+      this.statusCheckInterval = null;
+    }
+  }
+
+  private updateOperatorActivity() {
+    const email = localStorage.getItem('user_email');
+
+    if (!email) {
+      return;
+    }
+
+    this.authService.updateActivity(email).subscribe({
+      next: (res: any) => {
+        console.log('Activity updated:', res);
+      },
+      error: (err: any) => {
+        console.log('Activity update error:', err);
+
+        if (err.status === 403) {
+          alert('❌ Akun Anda telah diblokir oleh admin.');
+
+          localStorage.clear();
+          this.navCtrl.navigateRoot('/login');
+        }
+      }
+    });
+  }
+
+  private startActivityInterval() {
+    this.stopActivityInterval();
+
+    this.activityInterval = setInterval(() => {
+      this.updateOperatorActivity();
+    }, 30000);
+  }
+
+  private stopActivityInterval() {
+    if (this.activityInterval) {
+      clearInterval(this.activityInterval);
+      this.activityInterval = null;
     }
   }
 
@@ -135,27 +237,27 @@ export class HomePage implements OnInit {
     await PushNotifications.register();
 
     PushNotifications.addListener(
-  'registration',
-  (token) => {
-    console.log('FCM TOKEN:', token.value);
+      'registration',
+      (token) => {
+        console.log('FCM TOKEN:', token.value);
 
-    const userData = localStorage.getItem('user');
-    const user = userData ? JSON.parse(userData) : null;
+        const userData = localStorage.getItem('user');
+        const user = userData ? JSON.parse(userData) : null;
 
-    this.notificationService.saveFcmToken({
-      token: token.value,
-      user_id: user?.id || null,
-      platform: Capacitor.getPlatform()
-    }).subscribe({
-      next: (res) => {
-        console.log('FCM token berhasil disimpan:', res);
-      },
-      error: (err) => {
-        console.log('Gagal simpan FCM token:', err);
+        this.notificationService.saveFcmToken({
+          token: token.value,
+          user_id: user?.id || null,
+          platform: Capacitor.getPlatform()
+        }).subscribe({
+          next: (res) => {
+            console.log('FCM token berhasil disimpan:', res);
+          },
+          error: (err) => {
+            console.log('Gagal simpan FCM token:', err);
+          }
+        });
       }
-    });
-  }
-);
+    );
 
     PushNotifications.addListener(
       'registrationError',
@@ -274,14 +376,46 @@ export class HomePage implements OnInit {
     );
   }
 
-  logout() {
+ logout() {
+  const email = localStorage.getItem('user_email');
+
+  // Matikan semua interval dulu supaya updateActivity tidak jalan lagi
+  this.stopNotificationPolling();
+  this.stopActivityInterval();
+  this.stopStatusCheckInterval();
+
+  if (!email) {
     localStorage.clear();
 
     this.navCtrl.navigateRoot(
       '/login'
     );
+
+    return;
   }
 
+  this.authService.logout(email).subscribe({
+    next: (res: any) => {
+      console.log('Logout berhasil:', res);
+
+      localStorage.clear();
+
+      this.navCtrl.navigateRoot(
+        '/login'
+      );
+    },
+    error: (err: any) => {
+      console.log('Logout error:', err);
+
+      // Tetap logout dari aplikasi walaupun request backend error
+      localStorage.clear();
+
+      this.navCtrl.navigateRoot(
+        '/login'
+      );
+    }
+  });
+}
   goToBarang() {
     this.navCtrl.navigateForward(
       '/daftar-barang'
